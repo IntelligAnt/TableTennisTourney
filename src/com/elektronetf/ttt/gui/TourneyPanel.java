@@ -4,8 +4,6 @@ import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 
-import javax.swing.BorderFactory;
-
 import com.elektronetf.ttt.TourneyData;
 import com.elektronetf.util.gui.GridBagPanel;
 
@@ -32,7 +30,6 @@ public abstract class TourneyPanel extends GridBagPanel {
 	
 	@Override
 	public Component add(Component comp) {
-		System.out.println(currx + " " + curry);
 		addToGrid(comp, currx, curry++,
 				1, 1, 0.0, 0.0,
 				GridBagConstraints.CENTER, GridBagConstraints.VERTICAL,
