@@ -7,17 +7,27 @@ import java.util.function.IntUnaryOperator;
 
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.FontUIResource;
 
 public class GUIUtils {
 	private GUIUtils() {
 	}
 	
+	public static void setCrossPlatformLookAndFeel() {
+		setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+	}
+	
 	public static void setSystemLookAndFeel() {
+		setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+	}
+	
+	public static void setLookAndFeel(String className) {
 		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (Exception e) {
-			showError("Cannot set System L&F");
+			UIManager.setLookAndFeel(className);
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+				| UnsupportedLookAndFeelException e) {
+			showError("Cannot set " + className.substring(className.lastIndexOf('.') + 1));
 		}
 	}
 	

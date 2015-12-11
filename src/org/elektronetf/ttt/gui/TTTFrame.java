@@ -136,7 +136,9 @@ public abstract class TTTFrame extends JFrame { // TODO Add data polling
 		initComponents();
 	}
 	
-	public abstract void bindData(TourneyData data);
+	public void bindData(TourneyData data) {
+		panel.setData(data);
+	}
 
 	protected abstract void initPanel();
 	

@@ -12,7 +12,7 @@ public class DisplayPanel extends TourneyPanel {
 	}
 
 	@Override
-	protected void initComponents() {
+	protected void setUpPanel() {
 		// TODO Auto-generated method stub
 	}
 }
