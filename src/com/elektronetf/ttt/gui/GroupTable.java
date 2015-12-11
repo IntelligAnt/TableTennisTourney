@@ -1,7 +1,5 @@
 package com.elektronetf.ttt.gui;
 
-import java.awt.Dimension;
-
 import javax.swing.BorderFactory;
 import javax.swing.JTable;
 
@@ -19,7 +17,7 @@ public class GroupTable extends JTable {
 		}
 		setDesignation(designation);
 		
-		setPreferredSize(new Dimension(560, 190)); // TODO Temporary size fix
+//		setPreferredSize(new Dimension(0, 100));
 		setBorder(BorderFactory.createTitledBorder(getGroupName()));
 //		setFont(new Font(TTTFrame.FONT_NAME, Font.PLAIN, 20)); // TODO Display font
 	}

@@ -1,24 +1,23 @@
 package com.elektronetf.ttt.gui;
 
-import java.awt.Component;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
+import java.awt.GridLayout;
 
 import javax.swing.BorderFactory;
+import javax.swing.JPanel;
 
 import com.elektronetf.ttt.TourneyData;
-import com.elektronetf.util.gui.GridBagPanel;
+import com.elektronetf.util.gui.VerticalGridLayout;
 
-public abstract class TourneyPanel extends GridBagPanel {
+public abstract class TourneyPanel extends JPanel {
 	public static final int MAX_ROWS = 3;
+//	public static final int MAX_COLS = 0; // Any number of columns in a GridLayout
 	public static final int MAX_COLS = -Math.floorDiv(-TourneyData.MAX_GROUP_COUNT, MAX_ROWS); // Essentially ceilDiv()
 	
-	static final int DIV_SIZE = TTTFrame.DIV_SIZE;
-	static final Insets INSETS = new Insets(DIV_SIZE, DIV_SIZE, DIV_SIZE, DIV_SIZE);
+	static final int DIV_SIZE = 2 * TTTFrame.DIV_SIZE;
+	
+	private static final GridLayout LAYOUT = new VerticalGridLayout(MAX_ROWS, MAX_COLS);
 	
 	private TourneyData data;
-	private int currx = 0;
-	private int curry = 0;
 	
 	public TourneyPanel() {
 		this(null);
@@ -26,24 +25,15 @@ public abstract class TourneyPanel extends GridBagPanel {
 
 	public TourneyPanel(TourneyData data) {
 		setData(data);
-//		setBorder(BorderFactory.createEmptyBorder(DIV_SIZE, DIV_SIZE, DIV_SIZE, DIV_SIZE));
+		
+		setLayout(LAYOUT);
+		LAYOUT.setHgap(DIV_SIZE);
+		LAYOUT.setVgap(DIV_SIZE);
+		setBorder(BorderFactory.createEmptyBorder(DIV_SIZE, DIV_SIZE, DIV_SIZE, DIV_SIZE));
+		
 		initComponents();
 	}
 	
-	@Override
-	public Component add(Component comp) {
-		System.out.println(currx + " " + curry);
-		addToGrid(comp, currx, curry++,
-				1, 1, 0.0, 0.0,
-				GridBagConstraints.CENTER, GridBagConstraints.VERTICAL,
-				INSETS, 20, 20);
-		if (curry == MAX_ROWS) {
-			currx++;
-			curry = 0;
-		}
-		return comp;
-	}
-
 	TourneyData getData() {
 		return data;
 	}
