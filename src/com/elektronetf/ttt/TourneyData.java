@@ -4,7 +4,7 @@ public final class TourneyData implements Cloneable {
 	public static final int MAX_GROUP_COUNT = 16;
 
 	@Override
-	 public TourneyData clone() {
+	public TourneyData clone() {
 		 try {
 			TourneyData data = (TourneyData) super.clone();
 			// TODO Cloning code
@@ -12,5 +12,5 @@ public final class TourneyData implements Cloneable {
 		} catch (CloneNotSupportedException e) {
 			throw new InternalError(e);	// Shouldn't happen
 		}
-	 }
+	}
 }
