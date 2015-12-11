@@ -4,7 +4,7 @@ import org.elektronetf.ttt.TourneyData;
 
 public class TTTControlFrame extends TTTFrame {
 	public TTTControlFrame() {
-		setTitle("[Уп�?ављање] " + getTitle());
+		setTitle("[Управљање] " + getTitle());
 	}
 
 	@Override

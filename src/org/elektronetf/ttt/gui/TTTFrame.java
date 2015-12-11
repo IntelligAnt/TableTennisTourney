@@ -48,7 +48,6 @@ public abstract class TTTFrame extends JFrame { // TODO Add data polling
 		try {
 			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT,
 					new File(TTTFrame.class.getResource("resources/" + FONT_NAME + ".otf").getFile())));
-			System.out.println(FONT_SIZE_MULT);
 			GUIUtils.setDefaultFont(FONT_NAME, -1, (size) -> FONT_SIZE_MULT * size); // TODO Default display font
 		} catch (FontFormatException | IOException e) {
 			GUIUtils.showError("Cannot create font " + FONT_NAME);
@@ -95,7 +94,7 @@ public abstract class TTTFrame extends JFrame { // TODO Add data polling
 	static final int		TOP_BAR_HEIGHT	= (int) (SCREEN_SIZE.width * 0.1);
 	
 	static final String		FONT_NAME		= "NK233";
-	static final int		FONT_SIZE_MULT	= 4;
+	static final int		FONT_SIZE_MULT	= 3;
 	static final int		LOGO_FONT_SIZE	= (int) (TOP_BAR_HEIGHT * 0.3125);   
 	static final int		INFO_FONT_SIZE	= (int) (TOP_BAR_HEIGHT * 0.265);
 	
@@ -104,7 +103,7 @@ public abstract class TTTFrame extends JFrame { // TODO Add data polling
 	static final Color		SHADE_COLOR		= new Color(0x34495E);
 	static final Color		ACCENT_COLOR	= new Color(0xF1C40F);
 	
-	protected static final String VENUE	= "СТ�? Палилула";
+	protected static final String VENUE	= "СТК Палилула";
 	protected static final String DATE	= new SimpleDateFormat("dd.MM.yyyy.").format(new Date());
 	
 //	private static final Image ICON_IMAGE;
@@ -123,7 +122,7 @@ public abstract class TTTFrame extends JFrame { // TODO Add data polling
 	}
 	
 	public TTTFrame() {
-		super("Ту�?ни�? �? �?тоном тени�?�? �? Елект�?он ЕТФ");
+		super("Турнир у стоном тенису – Електрон ЕТФ");
 //		setIconImage(ICON_IMAGE);
 		setIconImages(IconUtils.findIconImagesByOS(getClass().getResource("resources/"), IconUtils.FILENAME_FORMAT_2D));
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -206,7 +205,7 @@ public abstract class TTTFrame extends JFrame { // TODO Add data polling
 	
 	private void addLogoText(int fontSize) {
 		StyledDocument doc = textPaneLogo.getStyledDocument();
-		String[] text = { "СТУДЕНТСК�? О�?ГАНИЗАЦИЈА\n", "ЕЛЕКТ�?О�?" };
+		String[] text = { "СТУДЕНТСКА ОРГАНИЗАЦИЈА\n", "ЕЛЕКТРОН" };
 		
 		Style normal = doc.addStyle("normal", DEF_STYLE);
 		StyleConstants.setForeground(normal, Color.WHITE);
@@ -221,7 +220,7 @@ public abstract class TTTFrame extends JFrame { // TODO Add data polling
 	
 	private void addInfoText(int fontSize) {
 		StyledDocument doc = textPaneInfo.getStyledDocument();
-		String[] text = { "Хуманита�?ни ту�?ни�? у\n", "СТОНО�? ТЕНИСУ\n\n", VENUE + " " + DATE };
+		String[] text = { "Хуманитарни турнир у\n", "СТОНОМ ТЕНИСУ\n\n", VENUE + " " + DATE };
 		
 		Style normal = doc.addStyle("normal", DEF_STYLE);
 		StyleConstants.setForeground(normal, new Color(0x95A5A6));
