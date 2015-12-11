@@ -1,4 +1,4 @@
-package com.elektronetf.util.logging;
+package org.elektronetf.util.logging;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;

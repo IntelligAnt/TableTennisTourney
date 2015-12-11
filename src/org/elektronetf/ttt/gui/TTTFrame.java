@@ -1,4 +1,4 @@
-package com.elektronetf.ttt.gui;
+package org.elektronetf.ttt.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -36,9 +36,9 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 
-import com.elektronetf.ttt.TourneyData;
-import com.elektronetf.util.gui.GUIUtils;
-import com.elektronetf.util.io.IconUtils;
+import org.elektronetf.ttt.TourneyData;
+import org.elektronetf.util.gui.GUIUtils;
+import org.elektronetf.util.io.IconUtils;
 
 public abstract class TTTFrame extends JFrame { // TODO Add data polling
 	public static void main(String[] args) {
@@ -48,7 +48,6 @@ public abstract class TTTFrame extends JFrame { // TODO Add data polling
 		try {
 			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT,
 					new File(TTTFrame.class.getResource("resources/" + FONT_NAME + ".otf").getFile())));
-			System.out.println(FONT_SIZE_MULT);
 			GUIUtils.setDefaultFont(FONT_NAME, -1, (size) -> FONT_SIZE_MULT * size); // TODO Default display font
 		} catch (FontFormatException | IOException e) {
 			GUIUtils.showError("Cannot create font " + FONT_NAME);

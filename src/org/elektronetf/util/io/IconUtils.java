@@ -1,4 +1,4 @@
-package com.elektronetf.util.io;
+package org.elektronetf.util.io;
 
 import java.awt.Image;
 import java.awt.Toolkit;

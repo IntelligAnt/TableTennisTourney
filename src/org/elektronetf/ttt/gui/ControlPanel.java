@@ -1,9 +1,9 @@
-package com.elektronetf.ttt.gui;
+package org.elektronetf.ttt.gui;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.elektronetf.ttt.TourneyData;
+import org.elektronetf.ttt.TourneyData;
 
 public class ControlPanel extends TourneyPanel {
 	public ControlPanel() {

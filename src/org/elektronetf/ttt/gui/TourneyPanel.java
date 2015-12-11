@@ -1,11 +1,11 @@
-package com.elektronetf.ttt.gui;
+package org.elektronetf.ttt.gui;
 
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 
-import com.elektronetf.ttt.TourneyData;
-import com.elektronetf.util.gui.GridBagPanel;
+import org.elektronetf.ttt.TourneyData;
+import org.elektronetf.util.gui.GridBagPanel;
 
 public abstract class TourneyPanel extends GridBagPanel {
 	public static final int MAX_ROWS = 3;

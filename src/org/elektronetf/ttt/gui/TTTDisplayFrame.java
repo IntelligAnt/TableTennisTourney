@@ -1,4 +1,4 @@
-package com.elektronetf.ttt.gui;
+package org.elektronetf.ttt.gui;
 
 public class TTTDisplayFrame extends TTTFrame {
 	public TTTDisplayFrame() {

@@ -1,11 +1,11 @@
-package com.elektronetf.ttt.gui;
+package org.elektronetf.ttt.gui;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 
-import com.elektronetf.ttt.TourneyData;
+import org.elektronetf.ttt.TourneyData;
 
 public class GroupTable extends JTable {
 	public static final String GROUP_PREFIX = "ÑCÑÇÑÖÑÅÑp ";

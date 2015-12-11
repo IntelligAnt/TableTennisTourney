@@ -1,4 +1,4 @@
-package com.elektronetf.util.gui;
+package org.elektronetf.util.gui;
 
 import java.awt.Component;
 import java.awt.Font;

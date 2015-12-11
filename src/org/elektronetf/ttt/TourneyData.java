@@ -1,4 +1,4 @@
-package com.elektronetf.ttt;
+package org.elektronetf.ttt;
 
 public final class TourneyData implements Cloneable {
 	public static final int MAX_GROUP_COUNT = 16;

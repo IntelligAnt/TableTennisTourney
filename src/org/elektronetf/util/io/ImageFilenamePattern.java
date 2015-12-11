@@ -1,4 +1,4 @@
-package com.elektronetf.util.io;
+package org.elektronetf.util.io;
 
 import java.util.regex.Pattern;
 import org.apache.commons.io.IOCase;
