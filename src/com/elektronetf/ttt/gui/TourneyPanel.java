@@ -23,9 +23,9 @@ public abstract class TourneyPanel extends GridBagPanel {
 	}
 
 	public TourneyPanel(TourneyData data) {
-		setData(data);
 //		setBorder(BorderFactory.createEmptyBorder(DIV_SIZE, DIV_SIZE, DIV_SIZE, DIV_SIZE));
-		initComponents();
+		setData(data);
+		setUpPanel();
 	}
 	
 	@Override
@@ -49,5 +49,5 @@ public abstract class TourneyPanel extends GridBagPanel {
 		this.data = data;
 	}
 	
-	protected abstract void initComponents();
+	protected abstract void setUpPanel();
 }
