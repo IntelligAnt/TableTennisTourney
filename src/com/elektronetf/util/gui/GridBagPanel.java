@@ -16,6 +16,11 @@ public class GridBagPanel extends JPanel {
 	}
 	
 	@Override
+	public GridBagLayout getLayout() {
+		return (GridBagLayout) super.getLayout();
+	}
+	
+	@Override
 	public void setLayout(LayoutManager mgr) {
 		if (mgr instanceof GridBagLayout) {
 			super.setLayout(mgr);
