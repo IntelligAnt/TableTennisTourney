@@ -1,8 +1,6 @@
 package com.elektronetf.util.gui;
 
-import java.awt.Component;
 import java.awt.Container;
-import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Insets;
 
@@ -68,11 +66,7 @@ public class VerticalGridLayout extends GridLayout {
 		
 		int i = c * nrows + r; // THIS IS CHANGED
 		if (i < ncomponents) {
-			Component comp = parent.getComponent(i);
-			Dimension size = comp.getPreferredSize();
-			int width  = (size.width  > 0 && size.width  < widthOnComponent)  ? size.width  : widthOnComponent;
-			int height = (size.height > 0 && size.height < heightOnComponent) ? size.height : heightOnComponent;
-			comp.setBounds(x, y, width, height);
+			parent.getComponent(i).setBounds(x, y, widthOnComponent, heightOnComponent);
 		}
 	}
 }
