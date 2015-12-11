@@ -94,7 +94,7 @@ public abstract class TTTFrame extends JFrame { // TODO Add data polling
 	static final int		TOP_BAR_HEIGHT	= (int) (SCREEN_SIZE.width * 0.1);
 	
 	static final String		FONT_NAME		= "NK233";
-	static final int		FONT_SIZE_MULT	= 4;
+	static final int		FONT_SIZE_MULT	= 3;
 	static final int		LOGO_FONT_SIZE	= (int) (TOP_BAR_HEIGHT * 0.3125);   
 	static final int		INFO_FONT_SIZE	= (int) (TOP_BAR_HEIGHT * 0.265);
 	
