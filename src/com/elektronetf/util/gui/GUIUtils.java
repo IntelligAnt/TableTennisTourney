@@ -3,6 +3,7 @@ package com.elektronetf.util.gui;
 import java.awt.Component;
 import java.awt.Font;
 import java.util.Enumeration;
+import java.util.function.IntUnaryOperator;
 
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
@@ -20,14 +21,21 @@ public class GUIUtils {
 		}
 	}
 	
-	public static void setDefaultFont(String fontName) {
+	public static void setDefaultFont(String fontName, int style, IntUnaryOperator sizeTransform) {
         Enumeration<Object> keys = UIManager.getDefaults().keys();
         while (keys.hasMoreElements()) {
         	Object key = keys.nextElement();
             Object value = UIManager.get(key);
             if (value instanceof FontUIResource) {
                 FontUIResource orig = (FontUIResource) value;
-                Font font = new Font(fontName, orig.getStyle(), orig.getSize());
+                if (style < 0) {
+                	style = orig.getStyle();
+                }
+                int size = orig.getSize();
+                if (sizeTransform != null) {
+                	size = sizeTransform.applyAsInt(size);
+                }
+                Font font = new Font(fontName, style, size);
                 UIManager.put(key, new FontUIResource(font));
             }
         }

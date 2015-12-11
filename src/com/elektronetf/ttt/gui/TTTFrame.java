@@ -48,7 +48,8 @@ public abstract class TTTFrame extends JFrame { // TODO Add data polling
 		try {
 			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT,
 					new File(TTTFrame.class.getResource("resources/" + FONT_NAME + ".otf").getFile())));
-//			GUIUtils.setDefaultFont(FONT_NAME); // TODO Default display font
+			System.out.println(FONT_SIZE_MULT);
+			GUIUtils.setDefaultFont(FONT_NAME, -1, (size) -> FONT_SIZE_MULT * size); // TODO Default display font
 		} catch (FontFormatException | IOException e) {
 			GUIUtils.showError("Cannot create font " + FONT_NAME);
 		}
@@ -91,14 +92,17 @@ public abstract class TTTFrame extends JFrame { // TODO Add data polling
 	
 	static final Dimension	SCREEN_SIZE		= Toolkit.getDefaultToolkit().getScreenSize();
 	static final int		DIV_SIZE		= (int) (SCREEN_SIZE.width * 0.01);
-	static final int		TOP_BAR_HEIGHT	= (int) (SCREEN_SIZE.width * 0.1); 
+	static final int		TOP_BAR_HEIGHT	= (int) (SCREEN_SIZE.width * 0.1);
+	
+	static final String		FONT_NAME		= "NK233";
+	static final int		FONT_SIZE_MULT	= 4;
 	static final int		LOGO_FONT_SIZE	= (int) (TOP_BAR_HEIGHT * 0.3125);   
-	static final int		INFO_FONT_SIZE	= (int) (TOP_BAR_HEIGHT * 0.265);    
+	static final int		INFO_FONT_SIZE	= (int) (TOP_BAR_HEIGHT * 0.265);
+	
 	static final Color		BGR_COLOR		= Color.WHITE;
 	static final Color		FGR_COLOR		= new Color(0x023756);
 	static final Color		SHADE_COLOR		= new Color(0x34495E);
 	static final Color		ACCENT_COLOR	= new Color(0xF1C40F);
-	static final String		FONT_NAME		= "NK233";
 	
 	protected static final String VENUE	= "СТК Палилула";
 	protected static final String DATE	= new SimpleDateFormat("dd.MM.yyyy.").format(new Date());
