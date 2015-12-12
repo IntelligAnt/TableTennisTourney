@@ -78,4 +78,15 @@ public abstract class GroupPanel extends JPanel {
 			}
 		}
 	}
+	
+	public static class GroupDisplayPanel extends GroupPanel {
+		public GroupDisplayPanel(Group group) {
+			super(group);
+		}
+
+		@Override
+		protected void setUpPanel() {
+			// TODO Auto-generated method stub
+		}
+	}
 }

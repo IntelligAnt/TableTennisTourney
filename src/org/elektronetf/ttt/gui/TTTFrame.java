@@ -41,7 +41,7 @@ import org.elektronetf.ttt.TourneyData;
 import org.elektronetf.util.gui.GUIUtils;
 import org.elektronetf.util.io.IconUtils;
 
-public abstract class TTTFrame extends JFrame { // TODO Add data polling
+public abstract class TTTFrame extends JFrame {
 	public static void main(String[] args) {
 		GUIUtils.setSystemLookAndFeel();
 		

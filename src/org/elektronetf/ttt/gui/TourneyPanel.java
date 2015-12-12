@@ -4,7 +4,10 @@ import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 
+import org.elektronetf.ttt.Contestant;
+import org.elektronetf.ttt.Group;
 import org.elektronetf.ttt.TourneyData;
+import org.elektronetf.ttt.gui.GroupPanel.GroupControlPanel;
 import org.elektronetf.util.gui.GridBagPanel;
 
 public abstract class TourneyPanel extends GridBagPanel {
@@ -51,4 +54,39 @@ public abstract class TourneyPanel extends GridBagPanel {
 	}
 	
 	protected abstract void setUpPanel();
+	
+	public static class TourneyControlPanel extends TourneyPanel {
+		public TourneyControlPanel() {
+			super();
+		}
+
+		public TourneyControlPanel(TourneyData data) {
+			super(data);
+		}
+
+		@Override
+		protected void setUpPanel() {
+			for (int i = 0; i < TourneyData.MAX_GROUP_COUNT; i++) {
+				Group group = getData().makeGroup();
+				group.addContestant(new Contestant("con", "1"));
+				add(new GroupControlPanel(group));
+			}
+		}
+	}
+	
+	public static class TourneyDisplayPanel extends TourneyPanel {
+		public TourneyDisplayPanel() {
+			super();
+		}
+
+		public TourneyDisplayPanel(TourneyData data) {
+			super(data);
+		}
+
+		@Override
+		protected void setUpPanel() {
+			// TODO Auto-generated method stub
+		}
+	}
+
 }

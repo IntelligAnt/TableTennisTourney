@@ -1,6 +1,7 @@
 package org.elektronetf.ttt.gui;
 
 import org.elektronetf.ttt.TourneyData;
+import org.elektronetf.ttt.gui.TourneyPanel.TourneyDisplayPanel;
 
 public class TTTDisplayFrame extends TTTFrame {
 	public TTTDisplayFrame() {
@@ -12,12 +13,12 @@ public class TTTDisplayFrame extends TTTFrame {
 		if (panel != null) {
 			panel.setData(data);
 		} else {
-			panel = new DisplayPanel(data);
+			panel = new TourneyDisplayPanel(data);
 		}
 	}
 	
 	@Override
 	protected void initPanel() {
-		panel = new DisplayPanel();
+		panel = new TourneyDisplayPanel();
 	}
 }
