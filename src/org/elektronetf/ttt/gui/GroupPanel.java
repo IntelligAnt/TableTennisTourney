@@ -14,7 +14,7 @@ import javax.swing.border.TitledBorder;
 
 import org.elektronetf.ttt.Contestant;
 import org.elektronetf.ttt.Group;
-import org.elektronetf.ttt.gui.GroupTable.ControlGroupTableModel;
+import org.elektronetf.ttt.gui.GroupTable.GroupControlTableModel;
 
 public abstract class GroupPanel extends JPanel {
 	static final int 	BORDER_FONT_SIZE		= (int) (TTTFrame.BASE_SIZE * 0.02);
@@ -25,12 +25,8 @@ public abstract class GroupPanel extends JPanel {
 	protected final Border borderReady;
 	protected final Border borderPublished;
 	
-	private boolean isPublished = true;
-	
 	public GroupPanel(Group group) {
 		this.group = group;
-		
-		setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
 		
 		int size = TTTFrame.BORDER_SIZE;
 		Border border = new MatteBorder(size, size, size, size, BORDER_READY_COLOR);
@@ -59,13 +55,14 @@ public abstract class GroupPanel extends JPanel {
 
 		@Override
 		protected void setUpPanel() {
+			setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 			setBorder(borderReady);
 			
-			table = new GroupTable(new ControlGroupTableModel(group));
+			table = new GroupTable(new GroupControlTableModel(group));
 			add(table);
 			
 			panelButtons = new JPanel();
-			panelButtons.setLayout(new BoxLayout(panelButtons, BoxLayout.PAGE_AXIS));
+			panelButtons.setLayout(new BoxLayout(panelButtons, BoxLayout.LINE_AXIS));
 			
 			buttonAdd = new JButton("Додај");
 			buttonAdd.addActionListener((evt) -> buttonAddActionPerformed(table, group));
@@ -81,11 +78,18 @@ public abstract class GroupPanel extends JPanel {
 			}
 			panelButtons.add(buttonRemove);
 			
+			buttonGenerate = new JButton("Објави");
+			buttonGenerate.addActionListener((evt) -> buttonGenerateActionPerformed(group));
+			for (ActionListener l : TourneyPanel.publishListeners) {
+				buttonGenerate.addActionListener(l);
+			}
+			panelButtons.add(buttonGenerate);
+			
 			add(panelButtons);
 		}
-		
+
 		private void buttonAddActionPerformed(GroupTable table, Group group) {
-			ControlGroupTableModel model = (ControlGroupTableModel) table.getModel();
+			GroupControlTableModel model = (GroupControlTableModel) table.getModel();
 			String[] newName = model.getNewName();
 			if (newName[0] != null && newName[0] != "" && newName[1] != null && newName[1] != "") {
 				int row = model.getNewNameRow();
@@ -95,22 +99,31 @@ public abstract class GroupPanel extends JPanel {
 				row = model.getNewNameRow();
 				table.setRowSelectionInterval(row, row);
 				table.requestFocusInWindow();
+				setBorder(borderReady);
 			}
 		}
 
 		private void buttonRemoveActionPerformed(GroupTable table, Group group) {
-			ControlGroupTableModel model = (ControlGroupTableModel) table.getModel();
+			GroupControlTableModel model = (GroupControlTableModel) table.getModel();
 			int row = table.getSelectedRow();
 			Contestant con = group.getContestant(row);
 			if (con != null) {
 				group.removeContestant(con);
 				model.fireTableRowsDeleted(row, row);
 				table.requestFocusInWindow();
+				setBorder(borderReady);
+			}
+		}
+		
+		private void buttonGenerateActionPerformed(Group group) {
+			if (group.generateGames()) {
+				setBorder(borderPublished);
 			}
 		}
 		
 		private JButton buttonAdd;
 		private JButton buttonRemove;
+		private JButton buttonGenerate;
 		private JPanel panelButtons;
 	}
 	

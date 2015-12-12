@@ -76,13 +76,20 @@ public class Group implements Comparable<Group> {
 	public List<Game> getGames() {
 		return Collections.unmodifiableList(games);
 	}
+	
+	public boolean hasGames() {
+		return !games.isEmpty();
+	}
 
-	public void generateGames() {
+	public boolean generateGames() {
+		boolean result = false;
 		for (int i = 0; i < contestants.size(); i++) {
 			for (int j = i + 1; j < contestants.size(); j++) {
 				games.add(new Game(2, contestants.get(i), contestants.get(j)));
+				result = true;
 			}
 		}
+		return result;
 	}
 	
 	@Override

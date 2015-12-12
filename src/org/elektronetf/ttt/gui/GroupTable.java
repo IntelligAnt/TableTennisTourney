@@ -33,10 +33,10 @@ public class GroupTable extends JTable {
 		}
 	}
 	
-	public static class ControlGroupTableModel extends GroupTableModel {
+	public static class GroupControlTableModel extends GroupTableModel {
 		private String[] newName = { null, null };
 		
-		public ControlGroupTableModel(Group group) {
+		public GroupControlTableModel(Group group) {
 			super(group);
 		}
 		

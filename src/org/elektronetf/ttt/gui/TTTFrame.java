@@ -49,7 +49,7 @@ public abstract class TTTFrame extends JFrame {
 		try {
 			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT,
 					new File(TTTFrame.class.getResource("resources/" + FONT_NAME + ".otf").getFile())));
-//			GUIUtils.setDefaultFont(DEF_FONT_NAME, -1, (size) -> 2 * size); // TODO Default display font
+//			GUIUtils.setDefaultFont(FONT_NAME, -1, (size) -> 2 * size); // TODO Default display font
 		} catch (FontFormatException | IOException e) {
 			GUIUtils.showError("Cannot create font " + FONT_NAME);
 		}

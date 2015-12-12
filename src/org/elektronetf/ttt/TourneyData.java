@@ -36,7 +36,7 @@ public final class TourneyData implements Cloneable {
 			designation = designation.substring(0, i) + (char) (designation.charAt(i) + 1);
 		}
 		Group group = new Group(designation);
-//		groups.add(group);
+		addGroup(group);
 		return group;
 	}
 
