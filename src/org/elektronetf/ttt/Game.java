@@ -16,7 +16,7 @@ public class Game {
         this.contestant2=contestant2;
         score = new ArrayList<>(6);
         for (int i = 0; i < 6; i++) {
-            score.add(new ArrayList<Integer>(2));
+            score.add(new ArrayList<>(2));
         }
     }
 

@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.List;
 
 public final class TourneyData implements Cloneable {
-	public static final int MAX_GROUP_COUNT = 16;
 	private static final String FIRST_DESIGNATION = "A";
 	
 	private List<Group> groups;
@@ -22,10 +21,14 @@ public final class TourneyData implements Cloneable {
 		return Collections.unmodifiableList(groups);
 	}
 	
-	public Group makeGroup() {
-//		if (groups.size() == MAX_GROUP_COUNT) {
-//			return null;
-//		}
+	public void addGroup(Group group) {
+		int pos = Collections.binarySearch(groups, group);
+		if (pos < 0) {
+			groups.add(-pos - 1, group);
+		}
+	}
+	
+	public Group createGroup() {
 		String designation = FIRST_DESIGNATION;
 		if (groups.size() > 0) {
 			designation = groups.get(groups.size() - 1).getDesignation();
@@ -33,7 +36,7 @@ public final class TourneyData implements Cloneable {
 			designation = designation.substring(0, i) + (char) (designation.charAt(i) + 1);
 		}
 		Group group = new Group(designation);
-		groups.add(group);
+//		groups.add(group);
 		return group;
 	}
 
@@ -41,7 +44,7 @@ public final class TourneyData implements Cloneable {
 	public TourneyData clone() {
 		 try {
 			TourneyData data = (TourneyData) super.clone();
-			// TODO Cloning code
+			data.groups = new ArrayList<>(groups);
 			return data;
 		} catch (CloneNotSupportedException e) {
 			throw new InternalError(e);	// Shouldn't happen

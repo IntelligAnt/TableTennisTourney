@@ -85,8 +85,8 @@ public abstract class TTTFrame extends JFrame {
 				throw new HeadlessException(msg);
 			}
 			
-			if (!gds[0].getDefaultConfiguration().getBounds().getSize().equals(
-					gds[1].getDefaultConfiguration().getBounds().getSize())) {
+			if (!gds[0].getDefaultConfiguration().getBounds().getSize()
+					.equals(gds[1].getDefaultConfiguration().getBounds().getSize())) {
 				GUIUtils.showWarning("Displays with different resolutions detected");
 			}
 		});

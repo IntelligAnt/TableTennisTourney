@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Group {
+public class Group implements Comparable<Group> {
 	public static final int MAX_CONTESTANTS = 5;
 	
 	private static final String NAME_FORMAT = "ÑCÑÇÑÖÑÅÑp %s";
@@ -14,12 +14,12 @@ public class Group {
 	private List<Game> games;
 	
 	public Group(String designation) {
-		this(designation, new ArrayList<Contestant>(MAX_CONTESTANTS));
+		this(designation, new ArrayList<>(MAX_CONTESTANTS));
 	}
 	
 	public Group(String designation, List<Contestant> contestants) {
 		this(designation, contestants,
-				new ArrayList<Game>((MAX_CONTESTANTS - 1) * MAX_CONTESTANTS / 2));
+				new ArrayList<>((MAX_CONTESTANTS - 1) * MAX_CONTESTANTS / 2));
 	}
 	
 	public Group(String designation, List<Contestant> contestants, List<Game> games) {
@@ -83,6 +83,11 @@ public class Group {
 				games.add(new Game(2, contestants.get(i), contestants.get(j)));
 			}
 		}
+	}
+	
+	@Override
+	public int compareTo(Group other) {
+		return designation.compareTo(other.designation);
 	}
 	
 	@Override

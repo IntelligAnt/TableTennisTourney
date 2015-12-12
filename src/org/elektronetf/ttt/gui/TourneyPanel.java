@@ -3,19 +3,24 @@ package org.elektronetf.ttt.gui;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
-import org.elektronetf.ttt.Contestant;
 import org.elektronetf.ttt.Group;
 import org.elektronetf.ttt.TourneyData;
 import org.elektronetf.ttt.gui.GroupPanel.GroupControlPanel;
 import org.elektronetf.util.gui.GridBagPanel;
 
 public abstract class TourneyPanel extends GridBagPanel {
-	public static final int MAX_ROWS = 3;
-//	public static final int MAX_COLS = -Math.floorDiv(-TourneyData.MAX_GROUP_COUNT, MAX_ROWS); // Essentially ceilDiv()
+	public static final int MAX_GROUP_COUNT = 16;
+	public static List<ActionListener> publishListeners = new ArrayList<>();
 	
 	protected TourneyData data;
 	
+	private static final int MAX_ROWS = 3;
+//	private static final int MAX_COLS = -Math.floorDiv(-TourneyData.MAX_GROUP_COUNT, MAX_ROWS); // Essentially ceilDiv()
 	private int currx = 0;
 	private int curry = 0;
 	
@@ -25,8 +30,16 @@ public abstract class TourneyPanel extends GridBagPanel {
 
 	public TourneyPanel(TourneyData data) {
 		this.data = (data != null) ? data : new TourneyData();
-//		setBorder(BorderFactory.createEmptyBorder(DIV_SIZE, DIV_SIZE, DIV_SIZE, DIV_SIZE));
+		publishListeners.add((evt) -> publishActionPerformed(evt));
 		setUpPanel();
+	}
+
+	public TourneyData getData() {
+		return data;
+	}
+	
+	public void setData(TourneyData data) {
+		this.data = data;
 	}
 	
 	@Override
@@ -42,16 +55,9 @@ public abstract class TourneyPanel extends GridBagPanel {
 		}
 		return comp;
 	}
-
-	TourneyData getData() {
-		return data;
-	}
-	
-	void setData(TourneyData data) {
-		this.data = data;
-	}
 	
 	protected abstract void setUpPanel();
+	protected abstract void publishActionPerformed(ActionEvent evt);
 	
 	public static class TourneyControlPanel extends TourneyPanel {
 		public TourneyControlPanel() {
@@ -64,11 +70,14 @@ public abstract class TourneyPanel extends GridBagPanel {
 
 		@Override
 		protected void setUpPanel() {
-			for (int i = 0; i < TourneyData.MAX_GROUP_COUNT; i++) {
-				Group group = getData().makeGroup();
-				group.addContestant(new Contestant("con", "1"));
+			for (int i = 0; i < MAX_GROUP_COUNT; i++) {
+				Group group = getData().createGroup();
 				add(new GroupControlPanel(group));
 			}
+		}
+
+		@Override
+		protected void publishActionPerformed(ActionEvent evt) {
 		}
 	}
 	
@@ -83,8 +92,13 @@ public abstract class TourneyPanel extends GridBagPanel {
 
 		@Override
 		protected void setUpPanel() {
+//			data.
+		}
+
+		@Override
+		protected void publishActionPerformed(ActionEvent evt) {
 			// TODO Auto-generated method stub
+			System.out.println("published");
 		}
 	}
-
 }
