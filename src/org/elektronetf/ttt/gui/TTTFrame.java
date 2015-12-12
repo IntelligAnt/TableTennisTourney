@@ -49,50 +49,54 @@ public abstract class TTTFrame extends JFrame {
 		try {
 			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT,
 					new File(TTTFrame.class.getResource("resources/" + FONT_NAME + ".otf").getFile())));
-//			GUIUtils.setDefaultFont(FONT_NAME, -1, (size) -> 3 * size); // TODO Default display font
+//			GUIUtils.setDefaultFont(DEF_FONT_NAME, -1, (size) -> 2 * size); // TODO Default display font
 		} catch (FontFormatException | IOException e) {
 			GUIUtils.showError("Cannot create font " + FONT_NAME);
 		}
 		
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-//				new TTTFrame().setVisible(true);
-				GraphicsDevice[] gds = ge.getScreenDevices();
-				assert(gds.length >= 1);
-				
-				TourneyData data = new TourneyData();
-				
-				if (gds[0].isFullScreenSupported()) {
-					TTTFrame frame = new TTTControlFrame();
-					frame.bindData(data);
-					gds[0].setFullScreenWindow(frame);
-				} else {
-					String msg = "Display 1 doesn't support full screen";
-					GUIUtils.showError(msg);
-					throw new HeadlessException(msg);
-				}
-				
-				if (gds.length < 2) {
-					GUIUtils.showWarning("Single display detected, only the Control interface will be shown");
-					return;
-				}
-				
-				if (gds[1].isFullScreenSupported()) {
-					TTTFrame frame = new TTTDisplayFrame();
-					frame.bindData(data);
-					gds[1].setFullScreenWindow(frame);
-				} else {
-					String msg = "Display 2 doesn't support full screen";
-					GUIUtils.showError(msg);
-					throw new HeadlessException(msg);
-				}
+		SwingUtilities.invokeLater(() -> {
+			GraphicsDevice[] gds = ge.getScreenDevices();
+			assert(gds.length >= 1);
+			
+			TourneyData data = new TourneyData();
+			
+			if (gds[0].isFullScreenSupported()) {
+				TTTFrame frame = new TTTControlFrame();
+				frame.bindData(data);
+				gds[0].setFullScreenWindow(frame);
+			} else {
+				String msg = "Display 1 doesn't support full screen";
+				GUIUtils.showError(msg);
+				throw new HeadlessException(msg);
+			}
+			
+			if (gds.length < 2) {
+				GUIUtils.showWarning("Single display detected, only the Control interface will be shown");
+				return;
+			}
+			
+			if (gds[1].isFullScreenSupported()) {
+				TTTFrame frame = new TTTDisplayFrame();
+				frame.bindData(data);
+				gds[1].setFullScreenWindow(frame);
+			} else {
+				String msg = "Display 2 doesn't support full screen";
+				GUIUtils.showError(msg);
+				throw new HeadlessException(msg);
+			}
+			
+			if (!gds[0].getDefaultConfiguration().getBounds().getSize().equals(
+					gds[1].getDefaultConfiguration().getBounds().getSize())) {
+				GUIUtils.showWarning("Displays with different resolutions detected");
 			}
 		});
 	}
 	
 	static final Dimension	SCREEN_SIZE		= Toolkit.getDefaultToolkit().getScreenSize();
-	static final int		DIV_SIZE		= (int) (SCREEN_SIZE.width * 0.01);
-	static final int		TOP_BAR_HEIGHT	= (int) (SCREEN_SIZE.width * 0.1);
+	static final int		BASE_SIZE		= SCREEN_SIZE.width;
+	static final int		DIV_SIZE		= (int) (BASE_SIZE * 0.01);
+	static final int		BORDER_SIZE		= DIV_SIZE / 2;
+	static final int		TOP_BAR_HEIGHT	= (int) (BASE_SIZE * 0.1);
 	
 	static final String		FONT_NAME		= "NK233";
 	static final int		LOGO_FONT_SIZE	= (int) (TOP_BAR_HEIGHT * 0.3125);   
@@ -171,8 +175,7 @@ public abstract class TTTFrame extends JFrame {
 		panelTopBar = new JPanel();
 		panelTopBar.setLayout(new BoxLayout(panelTopBar, BoxLayout.LINE_AXIS));
 		panelTopBar.setBackground(SHADE_COLOR);
-//		panelTopBar.setOpaque(false);
-		Border outsideBorder = new MatteBorder(0, 0, DIV_SIZE / 2, 0, ACCENT_COLOR) {
+		Border outsideBorder = new MatteBorder(0, 0, BORDER_SIZE, 0, ACCENT_COLOR) {
 			@Override
 			public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
 				super.paintBorder(c, g, x, y, width, height);

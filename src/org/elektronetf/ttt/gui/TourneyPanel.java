@@ -14,9 +14,6 @@ public abstract class TourneyPanel extends GridBagPanel {
 	public static final int MAX_ROWS = 3;
 //	public static final int MAX_COLS = -Math.floorDiv(-TourneyData.MAX_GROUP_COUNT, MAX_ROWS); // Essentially ceilDiv()
 	
-	static final int DIV_SIZE = TTTFrame.DIV_SIZE;
-	static final Insets INSETS = new Insets(DIV_SIZE, DIV_SIZE, DIV_SIZE, DIV_SIZE);
-	
 	protected TourneyData data;
 	
 	private int currx = 0;
@@ -34,10 +31,11 @@ public abstract class TourneyPanel extends GridBagPanel {
 	
 	@Override
 	public Component add(Component comp) {
+		int size = TTTFrame.DIV_SIZE;
 		addToGrid(comp, currx, curry++,
 				1, 1, 0.0, 0.0,
 				GridBagConstraints.CENTER, GridBagConstraints.VERTICAL,
-				INSETS, 20, 20);
+				new Insets(size, size, size, size), 20, 20);
 		if (curry == MAX_ROWS) {
 			currx++;
 			curry = 0;

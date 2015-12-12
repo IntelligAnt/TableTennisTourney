@@ -1,23 +1,31 @@
 package org.elektronetf.ttt.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Font;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.border.TitledBorder;
 
 import org.elektronetf.ttt.Contestant;
 import org.elektronetf.ttt.Group;
 import org.elektronetf.ttt.gui.GroupTable.ControlGroupTableModel;
 
 public abstract class GroupPanel extends JPanel {
+	static final int BORDER_FONT_SIZE = (int) (TTTFrame.BASE_SIZE * 0.02);
+	
 	protected final Group group;
 	
 	public GroupPanel(Group group) {
 		this.group = group;
 		setLayout(new BoxLayout(this, BoxLayout.LINE_AXIS));
-		setBorder(BorderFactory.createTitledBorder(group.getName()));
+		int size = TTTFrame.BORDER_SIZE;
+		setBorder(BorderFactory.createTitledBorder(
+				BorderFactory.createMatteBorder(size, size, size, size, TTTFrame.ACCENT_COLOR),
+				group.getName(), TitledBorder.LEFT, TitledBorder.TOP,
+				new Font(TTTFrame.FONT_NAME, Font.PLAIN, BORDER_FONT_SIZE)));
 		setUpPanel();
 	}
 	
