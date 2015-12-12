@@ -1,98 +1,130 @@
 package org.elektronetf.ttt.gui;
 
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JTable;
-import javax.swing.table.AbstractTableModel;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
 
-import org.elektronetf.ttt.TourneyData;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableCellRenderer;
+
+import org.elektronetf.ttt.Contestant;
+import org.elektronetf.ttt.Group;
 
 public class GroupTable extends JTable {
-	public static final String GROUP_PREFIX = "ÑCÑÇÑÖÑÅÑp ";
+	public GroupTable(GroupTableModel model) {
+		super(model);
+//		setPreferredSize(new Dimension(560, 200)); // TODO Temporary size fix
+		setFont(new Font(TTTFrame.FONT_NAME, Font.PLAIN, 20)); // TODO Display font
+		setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		setDefaultRenderer(Object.class, new GroupTableCellRenderer());
+	}
 	
-	private String designation;
-	
-	public GroupTable(String designation, TourneyData data) {
-		super(new GroupTableModel(data));
+	public static abstract class GroupTableModel extends AbstractTableModel {
+		protected final Group group;
 		
-		if (designation == null) {
-			throw new NullPointerException("Group designation is null");
-		}
-		if (designation.isEmpty()) {
-			throw new IllegalArgumentException("Group designation must not be empty");
-		}
-		setDesignation(designation);
-		
-//		setPreferredSize(new Dimension(560, 190)); // TODO Temporary size fix
-		setBorder(BorderFactory.createTitledBorder(getGroupName()));
-//		setFont(new Font(TTTFrame.FONT_NAME, Font.PLAIN, 20)); // TODO Display font
-	}
-
-	public String getDesignation() {
-		return designation;
-	}
-
-	public void setDesignation(String groupName) {
-		this.designation = groupName;
-	}
-	
-	public String getGroupName() {
-		return GROUP_PREFIX + getDesignation();
-	}
-	
-	@Override
-	public String toString() {
-		return getGroupName() + ": " + super.toString();
-	}
-	
-	public static class GroupTableModel extends AbstractTableModel {
-		private final TourneyData data;
-		
-		public GroupTableModel(TourneyData data) {
-			this.data = data;
+		public GroupTableModel(Group group) {
+			this.group = group;
 		}
 
+		public Group getGroup() {
+			return group;
+		}
+	}
+	
+	public static class ControlGroupTableModel extends GroupTableModel {
+		private String[] newName = { null, null };
+		
+		public ControlGroupTableModel(Group group) {
+			super(group);
+		}
+		
+		public String[] getNewName() {
+			return newName;
+		}
+		
+		public void setNewName(String[] newName) {
+			if (newName.length != 2) {
+				throw new IllegalArgumentException("New name must contain two strings");
+			}
+			this.newName = newName;
+		}
+		
+		public int getNewNameRow() {
+			return group.getContestantCount();
+		}
+		
 		@Override
 		public int getRowCount() {
-			return TourneyData.PLAYERS_PER_GROUP;
+			return Group.MAX_CONTESTANTS;
 		}
 		
 		@Override
 		public int getColumnCount() {
-			return 3;
+			return 2;
 		}
 		
 		@Override
-		public Object getValueAt(int rowIndex, int columnIndex) {
-			// TODO Auto-generated method stub
+		public Object getValueAt(int row, int column) {
+			Contestant con = group.getContestant(row);
+			if (con != null) {
+				return (column == 0) ? con.getFirstName() : con.getLastName();
+			} else if (row == getNewNameRow()) {
+				return newName[column];
+			}
 			return null;
 		}
 		
 		@Override
-		public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-			// TODO Auto-generated method stub
-		}
-		
-		@Override
-		public Class<?> getColumnClass(int columnIndex) {
-			switch (columnIndex) {
-			case 0:
-				return String.class;
-			case 1: case 2:
-				return JButton.class;
-			default:
-				return Object.class;	
+		public void setValueAt(Object value, int row, int column) {
+			assert(isCellEditable(row, column));
+			Contestant con = group.getContestant(row);
+			String str = (String) value;
+			if (con != null) {
+				if (column == 0) {
+					con.setFirstName(str);
+				} else {
+					con.setLastName(str);
+				}
+				fireTableCellUpdated(row, column);
+			} else {
+				newName[column] = str;
+				fireTableCellUpdated(getNewNameRow(), column);
 			}
 		}
-
+		
 		@Override
-		public String getColumnName(int columnIndex) {
-			return null;
+		public Class<?> getColumnClass(int column) {
+			return String.class;
 		}
 		
 		@Override
-		public boolean isCellEditable(int rowIndex, int columnIndex) {
-			return columnIndex == 0;
+		public boolean isCellEditable(int row, int column) {
+			return true;
+		}
+	}
+	
+	public static class GroupTableCellRenderer extends DefaultTableCellRenderer {
+		static final Color EMPTY_COLOR = new Color(0xECF0F1); // TODO Better colors
+		static final Color SELECTION_EMPTY_COLOR = new Color(0x39697B);
+		
+		@Override
+		public Component getTableCellRendererComponent(JTable table, Object value,
+				boolean isSelected, boolean hasFocus, int row, int column) {
+			
+			if (!(table instanceof GroupTable)) {
+				throw new IllegalArgumentException("Table must be a GroupTable");
+			}
+			Component comp = super.getTableCellRendererComponent(table, value,
+					isSelected, hasFocus, row, column);
+			Group group = ((GroupTableModel) table.getModel()).getGroup();
+			if (row >= group.getContestantCount()) {
+				comp.setBackground(isSelected ? SELECTION_EMPTY_COLOR : EMPTY_COLOR);
+			} else {
+				comp.setBackground(isSelected ? table.getSelectionBackground() : table.getBackground());
+			}
+			return comp;
 		}
 	}
 }

@@ -26,6 +26,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.SwingUtilities;
 import javax.swing.border.Border;
@@ -48,7 +49,7 @@ public abstract class TTTFrame extends JFrame { // TODO Add data polling
 		try {
 			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT,
 					new File(TTTFrame.class.getResource("resources/" + FONT_NAME + ".otf").getFile())));
-			GUIUtils.setDefaultFont(FONT_NAME, -1, (size) -> FONT_SIZE_MULT * size); // TODO Default display font
+//			GUIUtils.setDefaultFont(FONT_NAME, -1, (size) -> 3 * size); // TODO Default display font
 		} catch (FontFormatException | IOException e) {
 			GUIUtils.showError("Cannot create font " + FONT_NAME);
 		}
@@ -94,12 +95,11 @@ public abstract class TTTFrame extends JFrame { // TODO Add data polling
 	static final int		TOP_BAR_HEIGHT	= (int) (SCREEN_SIZE.width * 0.1);
 	
 	static final String		FONT_NAME		= "NK233";
-	static final int		FONT_SIZE_MULT	= 3;
 	static final int		LOGO_FONT_SIZE	= (int) (TOP_BAR_HEIGHT * 0.3125);   
 	static final int		INFO_FONT_SIZE	= (int) (TOP_BAR_HEIGHT * 0.265);
 	
-	static final Color		BGR_COLOR		= Color.WHITE;
-	static final Color		FGR_COLOR		= new Color(0x023756);
+	static final Color		BG_COLOR		= Color.WHITE;
+	static final Color		FG_COLOR		= new Color(0x023756);
 	static final Color		SHADE_COLOR		= new Color(0x34495E);
 	static final Color		ACCENT_COLOR	= new Color(0xF1C40F);
 	
@@ -129,7 +129,7 @@ public abstract class TTTFrame extends JFrame { // TODO Add data polling
 		
 		setUndecorated(true);
 		setSize(SCREEN_SIZE);
-		getContentPane().setBackground(BGR_COLOR);
+		getContentPane().setBackground(BG_COLOR);
 		setLocationByPlatform(true);
 		
 		setLayout(new BorderLayout());
@@ -202,7 +202,8 @@ public abstract class TTTFrame extends JFrame { // TODO Add data polling
 		add(panelTopBar, BorderLayout.PAGE_START);
 		
 		initPanel();
-		add(panel, BorderLayout.CENTER);
+		scrollPane = new JScrollPane(panel);
+		add(scrollPane, BorderLayout.CENTER);
 	}
 	
 	private void addLogoText(int fontSize) {
@@ -253,6 +254,7 @@ public abstract class TTTFrame extends JFrame { // TODO Add data polling
 	private JLabel labelHeart;
 	private JLabel labelLogo;
 	private JPanel panelTopBar;
+	private JScrollPane scrollPane;
 	private JTextPane textPaneLogo;
 	private JTextPane textPaneInfo;
 }

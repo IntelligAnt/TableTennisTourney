@@ -9,12 +9,13 @@ import org.elektronetf.util.gui.GridBagPanel;
 
 public abstract class TourneyPanel extends GridBagPanel {
 	public static final int MAX_ROWS = 3;
-	public static final int MAX_COLS = -Math.floorDiv(-TourneyData.MAX_GROUP_COUNT, MAX_ROWS); // Essentially ceilDiv()
+//	public static final int MAX_COLS = -Math.floorDiv(-TourneyData.MAX_GROUP_COUNT, MAX_ROWS); // Essentially ceilDiv()
 	
 	static final int DIV_SIZE = TTTFrame.DIV_SIZE;
 	static final Insets INSETS = new Insets(DIV_SIZE, DIV_SIZE, DIV_SIZE, DIV_SIZE);
 	
-	private TourneyData data;
+	protected TourneyData data;
+	
 	private int currx = 0;
 	private int curry = 0;
 	
@@ -23,8 +24,8 @@ public abstract class TourneyPanel extends GridBagPanel {
 	}
 
 	public TourneyPanel(TourneyData data) {
+		this.data = (data != null) ? data : new TourneyData();
 //		setBorder(BorderFactory.createEmptyBorder(DIV_SIZE, DIV_SIZE, DIV_SIZE, DIV_SIZE));
-		setData(data);
 		setUpPanel();
 	}
 	
