@@ -3,14 +3,14 @@ package org.elektronetf.ttt;
 public class Contestant {
     private String firstName;
     private String lastName;
-    private int gamesWon;
+    private int matchesWon;
     private int setsLost;
     private int pointsLost;
 
     public Contestant(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
-        gamesWon = setsLost = pointsLost = 0;
+        matchesWon = setsLost = pointsLost = 0;
     }
     
     public String getFirstName() {
@@ -33,12 +33,12 @@ public class Contestant {
     	return firstName + " " + lastName;
     }
     
-    public int getGamesWon() {
-        return gamesWon;
+    public int getMatchesWon() {
+        return matchesWon;
     }
 
-    public void setGamesWon(int gamesWon) {
-        this.gamesWon = gamesWon;
+    public void setMatchesWon(int matchesWon) {
+        this.matchesWon = matchesWon;
     }
 
     public int getSetsLost() {
@@ -59,7 +59,7 @@ public class Contestant {
     
     @Override
     public String toString() {
-        return getName() + " (" + gamesWon + "," + setsLost + "," + pointsLost + ")";
+        return getName();
     }
 }
 

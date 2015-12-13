@@ -95,10 +95,10 @@ public abstract class TTTFrame extends JFrame {
 	}
 	
 	static final Dimension	SCREEN_SIZE		= Toolkit.getDefaultToolkit().getScreenSize();
-	static final int		BASE_SIZE		= SCREEN_SIZE.width;
-	static final int		DIV_SIZE		= (int) (BASE_SIZE * 0.01);
-	static final int		BORDER_SIZE		= DIV_SIZE / 2;
-	static final int		TOP_BAR_HEIGHT	= (int) (BASE_SIZE * 0.1);
+	static final int		BASE_WIDTH		= SCREEN_SIZE.width;
+	static final int		DIV_WIDTH		= (int) (BASE_WIDTH * 0.01);
+	static final int		BORDER_WIDTH	= DIV_WIDTH / 2;
+	static final int		TOP_BAR_HEIGHT	= (int) (BASE_WIDTH * 0.1);
 	
 	static final String		DEFUI_FONT_NAME	= "NK241"; // NK58, NK241, cirHELVn-Svetli, null
 	static final int		DEFUI_FONT_SIZE = 17;
@@ -179,7 +179,7 @@ public abstract class TTTFrame extends JFrame {
 		panelTopBar = new JPanel();
 		panelTopBar.setLayout(new BoxLayout(panelTopBar, BoxLayout.LINE_AXIS));
 		panelTopBar.setBackground(SHADE_COLOR);
-		Border outsideBorder = new MatteBorder(0, 0, BORDER_SIZE, 0, ACCENT_COLOR) {
+		Border outsideBorder = new MatteBorder(0, 0, BORDER_WIDTH, 0, ACCENT_COLOR) {
 			@Override
 			public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
 				super.paintBorder(c, g, x, y, width, height);
@@ -198,10 +198,10 @@ public abstract class TTTFrame extends JFrame {
 				g.setColor(oldColor);
 			}
 		};
-		Border insideBorder = BorderFactory.createEmptyBorder(DIV_SIZE, DIV_SIZE, DIV_SIZE, DIV_SIZE);
+		Border insideBorder = BorderFactory.createEmptyBorder(DIV_WIDTH, DIV_WIDTH, DIV_WIDTH, DIV_WIDTH);
 		panelTopBar.setBorder(BorderFactory.createCompoundBorder(outsideBorder, insideBorder));
 		panelTopBar.add(labelLogo);
-		panelTopBar.add(Box.createHorizontalStrut(DIV_SIZE));
+		panelTopBar.add(Box.createHorizontalStrut(DIV_WIDTH));
 		panelTopBar.add(textPaneLogo);
 		panelTopBar.add(Box.createHorizontalGlue());
 		panelTopBar.add(textPaneInfo);

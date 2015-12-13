@@ -11,7 +11,7 @@ public class Group implements Comparable<Group> {
 	
 	private String designation;
 	private List<Contestant> contestants;
-	private List<Game> games;
+	private List<Match> matches;
 	
 	public Group(String designation) {
 		this(designation, new ArrayList<>(MAX_CONTESTANTS));
@@ -22,7 +22,7 @@ public class Group implements Comparable<Group> {
 				new ArrayList<>((MAX_CONTESTANTS - 1) * MAX_CONTESTANTS / 2));
 	}
 	
-	public Group(String designation, List<Contestant> contestants, List<Game> games) {
+	public Group(String designation, List<Contestant> contestants, List<Match> matches) {
 		if (designation == null) {
 			throw new NullPointerException("Group designation is null");
 		}
@@ -31,7 +31,7 @@ public class Group implements Comparable<Group> {
 		}
 		this.designation = designation;
 		this.contestants = contestants;
-		this.games = games;
+		this.matches = matches;
 	}
 
 	public String getDesignation() {
@@ -73,19 +73,19 @@ public class Group implements Comparable<Group> {
 		return contestants.remove(con);
 	}
 
-	public List<Game> getGames() {
-		return Collections.unmodifiableList(games);
+	public List<Match> getMatches() {
+		return Collections.unmodifiableList(matches);
 	}
 	
-	public boolean hasGames() {
-		return !games.isEmpty();
+	public boolean hasMatches() {
+		return !matches.isEmpty();
 	}
 
-	public boolean generateGames() {
+	public boolean generateMatches() {
 		boolean result = false;
 		for (int i = 0; i < contestants.size(); i++) {
 			for (int j = i + 1; j < contestants.size(); j++) {
-				games.add(new Game(2, contestants.get(i), contestants.get(j)));
+				matches.add(new Match(2, contestants.get(i), contestants.get(j)));
 				result = true;
 			}
 		}
@@ -99,6 +99,6 @@ public class Group implements Comparable<Group> {
 	
 	@Override
 	public String toString() {
-		return getName() + ": " + contestants + ", " + games;
+		return getName() + ": " + contestants + ", " + matches;
 	}
 }

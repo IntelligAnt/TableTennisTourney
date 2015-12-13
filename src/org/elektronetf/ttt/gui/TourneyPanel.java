@@ -17,7 +17,8 @@ import org.elektronetf.ttt.gui.GroupPanel.GroupDisplayPanel;
 import org.elektronetf.util.gui.VerticalWrapLayout;
 
 public abstract class TourneyPanel extends JPanel {
-	public static final int MAX_GROUP_COUNT = 16;
+	static final int BASE_HEIGHT = TTTFrame.SCREEN_SIZE.height - TTTFrame.TOP_BAR_HEIGHT;
+	static final int MAX_GROUP_COUNT = 16;
 	
 	protected TourneyData data;
 	
@@ -32,7 +33,7 @@ public abstract class TourneyPanel extends JPanel {
 	public TourneyPanel(TourneyData data) {
 		this.data = data;
 		PUBLISH_LISTENERS.add(PublishListener.class, (evt) -> publishPerformed(evt));
-		setLayout(new VerticalWrapLayout(VerticalWrapLayout.CENTER, TTTFrame.DIV_SIZE, TTTFrame.DIV_SIZE));
+		setLayout(new VerticalWrapLayout(VerticalWrapLayout.TOP, TTTFrame.DIV_WIDTH, TTTFrame.DIV_WIDTH));
 		setUpPanel();
 	}
 
@@ -101,7 +102,7 @@ public abstract class TourneyPanel extends JPanel {
 			groupMap = new TreeMap<>();
 			if (data != null) {
 				for (Group group : data.getGroups()) {
-					if (group.hasGames()) {
+					if (group.hasMatches()) {
 						GroupDisplayPanel panel = new GroupDisplayPanel(group);
 						add(panel);
 						groupMap.put(group, panel);

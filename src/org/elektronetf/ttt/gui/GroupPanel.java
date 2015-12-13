@@ -20,21 +20,21 @@ import org.elektronetf.ttt.gui.GroupTable.GroupDisplayTableModel;
 import org.elektronetf.ttt.gui.PublishEvent.PublishType;
 
 public abstract class GroupPanel extends JPanel {
-	static final int 	BORDER_FONT_SIZE		= (int) (TTTFrame.BASE_SIZE * 0.02);
-	static final Color	BORDER_READY_COLOR		= TTTFrame.ACCENT_COLOR;
+	static final int 	BORDER_FONT_SIZE		= (int) (TTTFrame.BASE_WIDTH * 0.02);
+	static final Color	BORDER_MODIFIED_COLOR	= TTTFrame.ACCENT_COLOR;
 	static final Color	BORDER_PUBLISHED_COLOR	= new Color(0x3498DB);
 	
 	protected final Group group;
-	protected final Border borderReady;
+	protected final Border borderModified;
 	protected final Border borderPublished;
 	
 	public GroupPanel(Group group) {
 		this.group = group;
 		
-		int size = TTTFrame.BORDER_SIZE;
-		Border border = new MatteBorder(size, size, size, size, BORDER_READY_COLOR);
+		int size = TTTFrame.BORDER_WIDTH;
+		Border border = new MatteBorder(size, size, size, size, BORDER_MODIFIED_COLOR);
 		Font font = new Font(TTTFrame.FONT_NAME, Font.PLAIN, BORDER_FONT_SIZE);
-		borderReady = BorderFactory.createTitledBorder(border, group.getName(),
+		borderModified = BorderFactory.createTitledBorder(border, group.getName(),
 				TitledBorder.LEFT, TitledBorder.TOP, font);
 		border = new MatteBorder(size, size, size, size, BORDER_PUBLISHED_COLOR);
 		borderPublished = BorderFactory.createTitledBorder(border, group.getName(),
@@ -59,7 +59,7 @@ public abstract class GroupPanel extends JPanel {
 		@Override
 		protected void setUpPanel() {
 			setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
-			setBorder(borderReady);
+			setBorder(borderModified);
 			
 			table = new GroupTable(new GroupControlTableModel(group));
 			table.addKeyListener(new KeyAdapter() {
@@ -86,6 +86,11 @@ public abstract class GroupPanel extends JPanel {
 			buttonGenerate = new JButton("Објави");
 			buttonGenerate.addActionListener((evt) -> buttonGenerateActionPerformed(group));
 			panelButtons.add(buttonGenerate);
+			
+			buttonMatches = new JButton("Мечеви");
+			buttonMatches.setEnabled(false);
+			buttonMatches.addActionListener((evt) -> buttonMatchesActionPerformed(group));
+			panelButtons.add(buttonMatches);
 			
 			add(panelButtons);
 		}
@@ -117,21 +122,32 @@ public abstract class GroupPanel extends JPanel {
 		}
 		
 		private void buttonGenerateActionPerformed(Group group) {
-			if (group.generateGames()) {
+			if (group.generateMatches()) {
 				publish(group, PublishType.PUBLISH_UPDATE);
 			}
+		}
+		
+		private void buttonMatchesActionPerformed(Group group) {
+			// TODO Auto-generated method stub
 		}
 		
 		private void publish(Group group, PublishType type) {
 			for (PublishListener l : TourneyPanel.getPublishListeners()) {
 				l.publishPerformed(new PublishEvent(group, type));
 			}
-			setBorder((type == PublishType.PUBLISH_UPDATE) ? borderPublished : borderReady);
+			if (type == PublishType.PUBLISH_UPDATE) {
+				buttonMatches.setEnabled(true);
+				setBorder(borderPublished);
+			} else {
+				buttonMatches.setEnabled(false);
+				setBorder(borderModified);
+			}
 		}
 		
 		private JButton buttonAdd;
 		private JButton buttonRemove;
 		private JButton buttonGenerate;
+		private JButton buttonMatches;
 		private JPanel panelButtons;
 	}
 	

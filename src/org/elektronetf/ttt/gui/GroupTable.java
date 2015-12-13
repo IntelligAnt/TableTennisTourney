@@ -8,15 +8,28 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableColumnModel;
 
 import org.elektronetf.ttt.Contestant;
 import org.elektronetf.ttt.Group;
 
 public class GroupTable extends JTable {
+	static final int ROW_HEIGHT	= (int) (TourneyPanel.BASE_HEIGHT * 0.035);
+	static final int FONT_SIZE	= (int) (ROW_HEIGHT * 0.9);
+	
 	public GroupTable(GroupTableModel model) {
 		super(model);
-//		setPreferredSize(new Dimension(560, 200)); // TODO Temporary size fix
-		setFont(new Font(TTTFrame.FONT_NAME, Font.PLAIN, 20)); // TODO Display font
+		setRowHeight(ROW_HEIGHT);
+		TableColumnModel columnModel = getColumnModel();
+		for (int i = 0; i < columnModel.getColumnCount(); i++) {
+			Class<?> columnClass = model.getColumnClass(i);
+			if (columnClass == String.class) {
+				columnModel.getColumn(i).setPreferredWidth(FONT_SIZE * 8);
+			} else if (columnClass == Integer.class) {
+				columnModel.getColumn(i).setPreferredWidth(FONT_SIZE * 2);
+			}
+		}
+		setFont(new Font(TTTFrame.FONT_NAME, Font.PLAIN, FONT_SIZE));
 		setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		setDefaultRenderer(Object.class, new GroupTableCellRenderer());
 	}
@@ -129,7 +142,7 @@ public class GroupTable extends JTable {
 			case 1:
 				return con.getLastName();
 			case 2:
-				return con.getGamesWon();
+				return con.getMatchesWon();
 			case 3:
 				return con.getSetsLost();
 			case 4:
@@ -138,11 +151,16 @@ public class GroupTable extends JTable {
 				return null;	
 			}
 		}
+
+		@Override
+		public Class<?> getColumnClass(int column) {
+			return (column < 2) ? String.class : Integer.class; 
+		}
 	}
 	
 	public static class GroupTableCellRenderer extends DefaultTableCellRenderer {
-		static final Color EMPTY_COLOR = new Color(0xECF0F1); // TODO Better colors
-		static final Color SELECTION_EMPTY_COLOR = new Color(0x39697B);
+		static final Color EMPTY_COLOR = new Color(0xECF0F1);
+		static final Color SELECTION_EMPTY_COLOR = new Color(0x2980B9);
 		
 		@Override
 		public Component getTableCellRendererComponent(JTable table, Object value,
