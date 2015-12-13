@@ -1,8 +1,5 @@
 package org.elektronetf.ttt.gui;
 
-import java.awt.Component;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -10,25 +7,23 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
 
+import javax.swing.JPanel;
 import javax.swing.event.EventListenerList;
 
 import org.elektronetf.ttt.Group;
 import org.elektronetf.ttt.TourneyData;
 import org.elektronetf.ttt.gui.GroupPanel.GroupControlPanel;
 import org.elektronetf.ttt.gui.GroupPanel.GroupDisplayPanel;
-import org.elektronetf.util.gui.GridBagPanel;
+import org.elektronetf.util.gui.VerticalWrapLayout;
 
-public abstract class TourneyPanel extends GridBagPanel {
+public abstract class TourneyPanel extends JPanel {
 	public static final int MAX_GROUP_COUNT = 16;
 	
 	protected TourneyData data;
 	
-	private static final int MAX_ROWS = 3;
+//	private static final int MAX_ROWS = 3;
 //	private static final int MAX_COLS = -Math.floorDiv(-TourneyData.MAX_GROUP_COUNT, MAX_ROWS); // Essentially ceilDiv()
 	private static final EventListenerList PUBLISH_LISTENERS = new EventListenerList();
-	
-	private int currx;
-	private int curry;
 	
 	public TourneyPanel() {
 		this(null);
@@ -36,8 +31,8 @@ public abstract class TourneyPanel extends GridBagPanel {
 
 	public TourneyPanel(TourneyData data) {
 		this.data = data;
-		currx = curry = 0;
 		PUBLISH_LISTENERS.add(PublishListener.class, (evt) -> publishPerformed(evt));
+		setLayout(new VerticalWrapLayout(VerticalWrapLayout.CENTER, TTTFrame.DIV_SIZE, TTTFrame.DIV_SIZE));
 		setUpPanel();
 	}
 
@@ -56,20 +51,6 @@ public abstract class TourneyPanel extends GridBagPanel {
 	
 	public static PublishListener[] getPublishListeners() {
 		return PUBLISH_LISTENERS.getListeners(PublishListener.class);
-	}
-	
-	@Override
-	public Component add(Component comp) {
-		int size = TTTFrame.DIV_SIZE;
-		addToGrid(comp, currx, curry++,
-				1, 1, 0.0, 0.0,
-				GridBagConstraints.CENTER, GridBagConstraints.VERTICAL,
-				new Insets(size, size, size, size), 20, 20);
-		if (curry == MAX_ROWS) {
-			currx++;
-			curry = 0;
-		}
-		return comp;
 	}
 	
 	protected abstract void setUpPanel();
@@ -137,8 +118,8 @@ public abstract class TourneyPanel extends GridBagPanel {
 			case PUBLISH_UPDATE:
 				if (!groupMap.containsKey(group)) {
 					Collection<GroupDisplayPanel> panels = groupMap.values();
-					List<Group> panelGroupList = panels.stream().map((panel) -> panel.getGroup())
-							.collect(Collectors.toList());
+					List<Group> panelGroupList = panels.stream().map(
+							(panel) -> panel.getGroup()).collect(Collectors.toList());
 					int index = Collections.binarySearch(panelGroupList, group);
 					assert(index < 0);
 					GroupDisplayPanel panel = new GroupDisplayPanel(group);
