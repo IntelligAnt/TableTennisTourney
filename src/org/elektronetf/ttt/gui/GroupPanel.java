@@ -2,7 +2,6 @@ package org.elektronetf.ttt.gui;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -15,6 +14,8 @@ import javax.swing.border.TitledBorder;
 import org.elektronetf.ttt.Contestant;
 import org.elektronetf.ttt.Group;
 import org.elektronetf.ttt.gui.GroupTable.GroupControlTableModel;
+import org.elektronetf.ttt.gui.GroupTable.GroupDisplayTableModel;
+import org.elektronetf.ttt.gui.PublishEvent.PublishType;
 
 public abstract class GroupPanel extends JPanel {
 	static final int 	BORDER_FONT_SIZE		= (int) (TTTFrame.BASE_SIZE * 0.02);
@@ -66,23 +67,14 @@ public abstract class GroupPanel extends JPanel {
 			
 			buttonAdd = new JButton("Додај");
 			buttonAdd.addActionListener((evt) -> buttonAddActionPerformed(table, group));
-			for (ActionListener l : TourneyPanel.publishListeners) {
-				buttonAdd.addActionListener(l);
-			}
 			panelButtons.add(buttonAdd);
 			
 			buttonRemove = new JButton("Уклони");
 			buttonRemove.addActionListener((evt) -> buttonRemoveActionPerformed(table, group));
-			for (ActionListener l : TourneyPanel.publishListeners) {
-				buttonRemove.addActionListener(l);
-			}
 			panelButtons.add(buttonRemove);
 			
 			buttonGenerate = new JButton("Објави");
 			buttonGenerate.addActionListener((evt) -> buttonGenerateActionPerformed(group));
-			for (ActionListener l : TourneyPanel.publishListeners) {
-				buttonGenerate.addActionListener(l);
-			}
 			panelButtons.add(buttonGenerate);
 			
 			add(panelButtons);
@@ -100,6 +92,7 @@ public abstract class GroupPanel extends JPanel {
 				table.setRowSelectionInterval(row, row);
 				table.requestFocusInWindow();
 				setBorder(borderReady);
+				publish(group, PublishType.PUBLISH_ADD);
 			}
 		}
 
@@ -112,12 +105,20 @@ public abstract class GroupPanel extends JPanel {
 				model.fireTableRowsDeleted(row, row);
 				table.requestFocusInWindow();
 				setBorder(borderReady);
+				publish(group, PublishType.PUBLISH_REMOVE);
 			}
 		}
 		
 		private void buttonGenerateActionPerformed(Group group) {
 			if (group.generateGames()) {
 				setBorder(borderPublished);
+				publish(group, PublishType.PUBLISH_UPDATE);
+			}
+		}
+		
+		private void publish(Group group, PublishType type) {
+			for (PublishListener l : TourneyPanel.getPublishListeners()) {
+				l.publishPerformed(new PublishEvent(group, type));
 			}
 		}
 		
@@ -135,6 +136,9 @@ public abstract class GroupPanel extends JPanel {
 		@Override
 		protected void setUpPanel() {
 			setBorder(borderPublished);
+			
+			table = new GroupTable(new GroupDisplayTableModel(group));
+			add(table);
 		}
 	}
 }

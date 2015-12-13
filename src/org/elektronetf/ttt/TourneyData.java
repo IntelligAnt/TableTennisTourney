@@ -22,9 +22,9 @@ public final class TourneyData implements Cloneable {
 	}
 	
 	public void addGroup(Group group) {
-		int pos = Collections.binarySearch(groups, group);
-		if (pos < 0) {
-			groups.add(-pos - 1, group);
+		int index = Collections.binarySearch(groups, group);
+		if (index < 0) {
+			groups.add(-index - 1, group);
 		}
 	}
 	

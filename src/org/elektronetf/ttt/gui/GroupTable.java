@@ -105,6 +105,41 @@ public class GroupTable extends JTable {
 		}
 	}
 	
+	public static class GroupDisplayTableModel extends GroupTableModel {
+		public GroupDisplayTableModel(Group group) {
+			super(group);
+		}
+		
+		@Override
+		public int getRowCount() {
+			return group.getContestantCount();
+		}
+		
+		@Override
+		public int getColumnCount() {
+			return 5;
+		}
+		
+		@Override
+		public Object getValueAt(int row, int column) {
+			Contestant con = group.getContestant(row);
+			switch (column) {
+			case 0:
+				return con.getFirstName();
+			case 1:
+				return con.getLastName();
+			case 2:
+				return con.getGamesWon();
+			case 3:
+				return con.getSetsLost();
+			case 4:
+				return con.getPointsLost();
+			default:
+				return null;	
+			}
+		}
+	}
+	
 	public static class GroupTableCellRenderer extends DefaultTableCellRenderer {
 		static final Color EMPTY_COLOR = new Color(0xECF0F1); // TODO Better colors
 		static final Color SELECTION_EMPTY_COLOR = new Color(0x39697B);

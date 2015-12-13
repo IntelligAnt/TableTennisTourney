@@ -48,8 +48,10 @@ public abstract class TTTFrame extends JFrame {
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		try {
 			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT,
+					new File(TTTFrame.class.getResource("resources/" + DEFUI_FONT_NAME + ".otf").getFile())));
+			ge.registerFont(Font.createFont(Font.TRUETYPE_FONT,
 					new File(TTTFrame.class.getResource("resources/" + FONT_NAME + ".otf").getFile())));
-//			GUIUtils.setDefaultFont(FONT_NAME, -1, (size) -> 2 * size); // TODO Default display font
+			GUIUtils.setDefaultFont(DEFUI_FONT_NAME, -1, (size) -> DEFUI_FONT_SIZE);
 		} catch (FontFormatException | IOException e) {
 			GUIUtils.showError("Cannot create font " + FONT_NAME);
 		}
@@ -98,6 +100,8 @@ public abstract class TTTFrame extends JFrame {
 	static final int		BORDER_SIZE		= DIV_SIZE / 2;
 	static final int		TOP_BAR_HEIGHT	= (int) (BASE_SIZE * 0.1);
 	
+	static final String		DEFUI_FONT_NAME	= "NK241"; // NK58, NK241, cirHELVn-Svetli, null
+	static final int		DEFUI_FONT_SIZE = 17;
 	static final String		FONT_NAME		= "NK233";
 	static final int		LOGO_FONT_SIZE	= (int) (TOP_BAR_HEIGHT * 0.3125);   
 	static final int		INFO_FONT_SIZE	= (int) (TOP_BAR_HEIGHT * 0.265);
@@ -206,6 +210,7 @@ public abstract class TTTFrame extends JFrame {
 		
 		initPanel();
 		scrollPane = new JScrollPane(panel);
+		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
 		add(scrollPane, BorderLayout.CENTER);
 	}
 	

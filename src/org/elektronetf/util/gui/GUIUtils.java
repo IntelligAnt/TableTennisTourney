@@ -31,13 +31,16 @@ public class GUIUtils {
 		}
 	}
 	
-	public static void setDefaultFont(String fontName, int style, IntUnaryOperator sizeTransform) {
+	public static void setDefaultFont(String name, int style, IntUnaryOperator sizeTransform) {
         Enumeration<Object> keys = UIManager.getDefaults().keys();
         while (keys.hasMoreElements()) {
         	Object key = keys.nextElement();
             Object value = UIManager.get(key);
             if (value instanceof FontUIResource) {
                 FontUIResource orig = (FontUIResource) value;
+                if (name == null) {
+                	name = orig.getName();
+                }
                 if (style < 0) {
                 	style = orig.getStyle();
                 }
@@ -45,7 +48,7 @@ public class GUIUtils {
                 if (sizeTransform != null) {
                 	size = sizeTransform.applyAsInt(size);
                 }
-                Font font = new Font(fontName, style, size);
+                Font font = new Font(name, style, size);
                 UIManager.put(key, new FontUIResource(font));
             }
         }

@@ -12,6 +12,7 @@ public class TTTDisplayFrame extends TTTFrame {
 	public void bindData(TourneyData data) {
 		if (panel != null) {
 			panel.setData(data);
+			panel.repopulate();
 		} else {
 			panel = new TourneyDisplayPanel(data);
 		}
