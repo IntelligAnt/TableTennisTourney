@@ -2,6 +2,8 @@ package org.elektronetf.ttt.gui;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -60,6 +62,14 @@ public abstract class GroupPanel extends JPanel {
 			setBorder(borderReady);
 			
 			table = new GroupTable(new GroupControlTableModel(group));
+			table.addKeyListener(new KeyAdapter() {
+				@Override
+				public void keyReleased(KeyEvent evt) {
+					if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+						buttonAddActionPerformed(table, group);
+					}
+				}
+			});
 			add(table);
 			
 			panelButtons = new JPanel();
@@ -88,10 +98,8 @@ public abstract class GroupPanel extends JPanel {
 				group.addContestant(new Contestant(newName[0], newName[1]));
 				model.setNewName(new String[]{ null, null });
 				model.fireTableRowsInserted(row, row);
-				row = model.getNewNameRow();
-				table.setRowSelectionInterval(row, row);
+				table.changeSelection(model.getNewNameRow(), 0, false, false);
 				table.requestFocusInWindow();
-				setBorder(borderReady);
 				publish(group, PublishType.PUBLISH_ADD);
 			}
 		}
@@ -104,14 +112,12 @@ public abstract class GroupPanel extends JPanel {
 				group.removeContestant(con);
 				model.fireTableRowsDeleted(row, row);
 				table.requestFocusInWindow();
-				setBorder(borderReady);
 				publish(group, PublishType.PUBLISH_REMOVE);
 			}
 		}
 		
 		private void buttonGenerateActionPerformed(Group group) {
 			if (group.generateGames()) {
-				setBorder(borderPublished);
 				publish(group, PublishType.PUBLISH_UPDATE);
 			}
 		}
@@ -120,6 +126,7 @@ public abstract class GroupPanel extends JPanel {
 			for (PublishListener l : TourneyPanel.getPublishListeners()) {
 				l.publishPerformed(new PublishEvent(group, type));
 			}
+			setBorder((type == PublishType.PUBLISH_UPDATE) ? borderPublished : borderReady);
 		}
 		
 		private JButton buttonAdd;

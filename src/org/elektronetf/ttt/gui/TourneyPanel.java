@@ -3,9 +3,12 @@ package org.elektronetf.ttt.gui;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.SortedMap;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 import javax.swing.event.EventListenerList;
 
@@ -102,6 +105,8 @@ public abstract class TourneyPanel extends GridBagPanel {
 	}
 	
 	public static class TourneyDisplayPanel extends TourneyPanel {
+		private SortedMap<Group, GroupDisplayPanel> groupMap;
+		
 		public TourneyDisplayPanel() {
 			super();
 		}
@@ -112,10 +117,13 @@ public abstract class TourneyPanel extends GridBagPanel {
 
 		@Override
 		protected void setUpPanel() {
+			groupMap = new TreeMap<>();
 			if (data != null) {
 				for (Group group : data.getGroups()) {
 					if (group.hasGames()) {
-						add(new GroupDisplayPanel(group));
+						GroupDisplayPanel panel = new GroupDisplayPanel(group);
+						add(panel);
+						groupMap.put(group, panel);
 					}
 				}
 			}
@@ -124,36 +132,33 @@ public abstract class TourneyPanel extends GridBagPanel {
 		@Override
 		protected void publishPerformed(PublishEvent evt) {
 			Group group = evt.getSource();
-			int index;
 			
-			switch (evt.getType()) {
-			case PUBLISH_ADD: case PUBLISH_UPDATE:
-				index = data.getGroups().indexOf(group);
-				assert(index >= 0);
-				if (group.hasGames()) {
-					if (index < getComponentCount() && ((GroupPanel) getComponent(index)).getGroup() != group) {
-						add(new GroupDisplayPanel(group), index);
-					} else {
-						add(new GroupDisplayPanel(group)); // TODO What happens if the last component is the bracket?
-					}
+			switch(evt.getType()) {
+			case PUBLISH_UPDATE:
+				if (!groupMap.containsKey(group)) {
+					Collection<GroupDisplayPanel> panels = groupMap.values();
+					List<Group> panelGroupList = panels.stream().map((panel) -> panel.getGroup())
+							.collect(Collectors.toList());
+					int index = Collections.binarySearch(panelGroupList, group);
+					assert(index < 0);
+					GroupDisplayPanel panel = new GroupDisplayPanel(group);
+					add(panel, -index - 1);
+					groupMap.put(group, panel);
 				}
 				break;
 			case PUBLISH_REMOVE:
-				if (group.getContestantCount() == 0) {
-					Component[] comps = getComponents();
-					List<Group> groups = new ArrayList<>(comps.length - 1);
-					for (int i = 0; i < comps.length - 1; i++) {
-						groups.add(((GroupPanel) comps[i]).getGroup());
-					}
-					index = Collections.binarySearch(groups, group);
-					if (index >= 0) {
-						remove(index);
-					}
+				if (group.getContestantCount() != 0) {
+					return;
 				}
+				remove(groupMap.get(group));
+				groupMap.remove(group);
 				break;
 			default:
-				// Should never happen
+				return;
 			}
+			
+			revalidate();
+			repaint();
 		}
 	}
 }
