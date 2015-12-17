@@ -8,5 +8,5 @@
 													     Слика би требало да буде PNG већег формата (нпр. 960x960) -->
 <entry key="int.maxgroups">16</entry>				<!-- Колико највише група може учествовати на турниру -->
 <entry key="int.maxcontestants">5</entry>			<!-- Колико највише може имати играча у свакој групи -->
-<entry key="str.firstdesignation">1</entry>         <!-- Ознака почев од које треба нумерисати групе, нпр. А или 1 -->
+<entry key="str.firstdesignation">A</entry>         <!-- Ознака почев од које треба нумерисати групе, нпр. А, 1, Г1 -->
 </properties>

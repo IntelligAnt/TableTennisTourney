@@ -3,6 +3,8 @@ package org.elektronetf.ttt;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.elektronetf.ttt.gui.TTTFrame;
 
@@ -97,7 +99,8 @@ public class Group implements Comparable<Group> {
 	
 	public static String getNextDesignation(String designation) {
 		try {
-			return Integer.toString(new Integer(designation) + 1);
+			Integer part = getIntegerPart(designation);
+			return designation.replace(part.toString(), Integer.toString(part + 1));
 		} catch (NumberFormatException e) {
 			int i = designation.length() - 1;
 			return designation.substring(0, i) + (char) (designation.charAt(i) + 1);
@@ -107,7 +110,7 @@ public class Group implements Comparable<Group> {
 	@Override
 	public int compareTo(Group other) {
 		try {
-			return new Integer(designation).compareTo(new Integer(other.designation));
+			return getIntegerPart(designation).compareTo(getIntegerPart(other.designation));
 		} catch (NumberFormatException e) {
 			return designation.compareTo(other.designation);
 		}
@@ -116,5 +119,13 @@ public class Group implements Comparable<Group> {
 	@Override
 	public String toString() {
 		return getName() + ": " + contestants + ", " + matches;
+	}
+	
+	private static Integer getIntegerPart(String designation) throws NumberFormatException {
+		Matcher m = Pattern.compile("\\d+").matcher(designation);
+		if (!m.find()) {
+			throw new NumberFormatException();
+		}
+		return new Integer(m.group(0));
 	}
 }
