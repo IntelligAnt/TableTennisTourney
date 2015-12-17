@@ -46,6 +46,24 @@ public class GroupTable extends JTable {
 		public Group getGroup() {
 			return group;
 		}
+
+		@Override
+		public String getColumnName(int column) {
+			switch (column) {
+			case 0:
+				return "„y„}„u";
+			case 1:
+				return "„„‚„u„x„y„}„u";
+			case 2:
+				return "+„}„u„‰";
+			case 3:
+				return "-„ƒ„u„„";
+			case 4:
+				return "-„q„€„t";
+			default:
+				return null;
+			}
+		}
 	}
 	
 	public static class GroupControlTableModel extends GroupTableModel {
@@ -115,18 +133,6 @@ public class GroupTable extends JTable {
 		}
 		
 		@Override
-		public String getColumnName(int column) {
-			switch (column) {
-			case 0:
-				return "„I„}„u";
-			case 1:
-				return "„P„‚„u„x„y„}„u";
-			default:
-				return null;
-			}
-		}
-		
-		@Override
 		public boolean isCellEditable(int row, int column) {
 			return true;
 		}
@@ -169,24 +175,6 @@ public class GroupTable extends JTable {
 		@Override
 		public Class<?> getColumnClass(int column) {
 			return (column < 2) ? String.class : Integer.class; 
-		}
-
-		@Override
-		public String getColumnName(int column) {
-			switch (column) {
-			case 0:
-				return "„I„}„u";
-			case 1:
-				return "„P„‚„u„x„y„}„u";
-			case 2:
-				return "„D„€„q. „}„u„‰„u„r„y";
-			case 3:
-				return "„I„x„s. „ƒ„u„„„€„r„y";
-			case 4:
-				return "„I„x„s. „„€„u„~„y";
-			default:
-				return null;
-			}
 		}
 	}
 	

@@ -8,6 +8,7 @@ import org.elektronetf.ttt.gui.TTTFrame;
 
 public class Group implements Comparable<Group> {
 	public static final int MAX_CONTESTANTS = new Integer(TTTFrame.getProperty("int.maxcontestants"));
+	public static final String FIRST_DESIGNATION = TTTFrame.getProperty("str.firstdesignation");
 	
 	private static final String NAME_FORMAT = "ÑCÑÇÑÖÑÅÑp %s";
 	
@@ -84,19 +85,32 @@ public class Group implements Comparable<Group> {
 	}
 
 	public boolean generateMatches() {
-		boolean result = false;
+		boolean generated = false;
 		for (int i = 0; i < contestants.size(); i++) {
 			for (int j = i + 1; j < contestants.size(); j++) {
 				matches.add(new Match(3, contestants.get(i), contestants.get(j)));
-				result = true;
+				generated = true;
 			}
 		}
-		return result;
+		return generated;
+	}
+	
+	public static String getNextDesignation(String designation) {
+		try {
+			return Integer.toString(new Integer(designation) + 1);
+		} catch (NumberFormatException e) {
+			int i = designation.length() - 1;
+			return designation.substring(0, i) + (char) (designation.charAt(i) + 1);
+		}
 	}
 	
 	@Override
 	public int compareTo(Group other) {
-		return designation.compareTo(other.designation);
+		try {
+			return new Integer(designation).compareTo(new Integer(other.designation));
+		} catch (NumberFormatException e) {
+			return designation.compareTo(other.designation);
+		}
 	}
 	
 	@Override

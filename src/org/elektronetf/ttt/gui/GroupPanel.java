@@ -1,5 +1,6 @@
 package org.elektronetf.ttt.gui;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.KeyAdapter;
@@ -50,6 +51,7 @@ public abstract class GroupPanel extends JPanel {
 	protected abstract void setUpPanel();
 	
 	GroupTable table;
+	JPanel panelTable;
 	
 	public static class GroupControlPanel extends GroupPanel {
 		private boolean isMatchesLayoutEnabled = false;
@@ -63,6 +65,8 @@ public abstract class GroupPanel extends JPanel {
 			setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 			setBorder(borderModified);
 			
+			panelTable = new JPanel(new BorderLayout());
+			
 			table = new GroupTable(new GroupControlTableModel(group));
 			table.addKeyListener(new KeyAdapter() {
 				@Override
@@ -72,7 +76,10 @@ public abstract class GroupPanel extends JPanel {
 					}
 				}
 			});
-			add(table);
+//			panelTable.add(table.getTableHeader(), BorderLayout.PAGE_START); // Can add header if needed
+			panelTable.add(table, BorderLayout.CENTER);
+			
+			add(panelTable);
 			
 			panelMatches = new MatchPanel();
 			panelMatches.setPreferredSize(table.getPreferredSize());
@@ -184,8 +191,13 @@ public abstract class GroupPanel extends JPanel {
 		protected void setUpPanel() {
 			setBorder(borderPublished);
 			
+			panelTable = new JPanel(new BorderLayout());
+			
 			table = new GroupTable(new GroupDisplayTableModel(group));
-			add(table);
+			panelTable.add(table.getTableHeader(), BorderLayout.PAGE_START);
+			panelTable.add(table, BorderLayout.CENTER);
+			
+			add(panelTable);
 		}
 	}
 }

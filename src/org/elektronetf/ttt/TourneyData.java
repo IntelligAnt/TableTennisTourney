@@ -4,13 +4,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.elektronetf.ttt.gui.TTTFrame;
+
 public final class TourneyData implements Cloneable {
-	private static final String FIRST_DESIGNATION = "A";
+	public static final int MAX_GROUPS = new Integer(TTTFrame.getProperty("int.maxgroups"));
 	
 	private List<Group> groups;
 	
 	public TourneyData() {
-		groups = new ArrayList<>();
+		groups = new ArrayList<>(MAX_GROUPS);
 	}
 	
 	public Group getGroup(int index) {
@@ -29,14 +31,12 @@ public final class TourneyData implements Cloneable {
 	}
 	
 	public Group createGroup() {
-		String designation = FIRST_DESIGNATION;
+		String designation = Group.FIRST_DESIGNATION;
 		if (groups.size() > 0) {
-			designation = groups.get(groups.size() - 1).getDesignation();
-			int i = designation.length() - 1;
-			designation = designation.substring(0, i) + (char) (designation.charAt(i) + 1);
+			designation = Group.getNextDesignation(groups.get(groups.size() - 1).getDesignation());
 		}
 		Group group = new Group(designation);
-		addGroup(group);
+		groups.add(group);
 		return group;
 	}
 
