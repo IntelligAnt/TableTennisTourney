@@ -16,7 +16,7 @@ public class Match {
         this.contestant2 = contestant2;
         score = new ArrayList<>(6);
         for (int i = 0; i < 6; i++) {
-            score.add(new ArrayList<>(2));
+            score.add(new ArrayList<>(3));
         }
     }
 
@@ -75,7 +75,7 @@ public class Match {
 
     @Override
     public String toString() {
-        return contestant1 + " ~ " + contestant2; 
+        return contestant1 + " â€“ " + contestant2; 
     }
 }
 

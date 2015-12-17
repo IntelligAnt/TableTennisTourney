@@ -85,7 +85,7 @@ public class Group implements Comparable<Group> {
 		boolean result = false;
 		for (int i = 0; i < contestants.size(); i++) {
 			for (int j = i + 1; j < contestants.size(); j++) {
-				matches.add(new Match(2, contestants.get(i), contestants.get(j)));
+				matches.add(new Match(3, contestants.get(i), contestants.get(j)));
 				result = true;
 			}
 		}

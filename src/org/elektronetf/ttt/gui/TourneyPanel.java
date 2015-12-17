@@ -122,7 +122,7 @@ public abstract class TourneyPanel extends JPanel {
 					List<Group> panelGroupList = panels.stream().map(
 							(panel) -> panel.getGroup()).collect(Collectors.toList());
 					int index = Collections.binarySearch(panelGroupList, group);
-					assert(index < 0);
+					assert index < 0;
 					GroupDisplayPanel panel = new GroupDisplayPanel(group);
 					add(panel, -index - 1);
 					groupMap.put(group, panel);

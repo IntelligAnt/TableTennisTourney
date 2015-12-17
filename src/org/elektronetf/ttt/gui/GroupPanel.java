@@ -52,6 +52,8 @@ public abstract class GroupPanel extends JPanel {
 	GroupTable table;
 	
 	public static class GroupControlPanel extends GroupPanel {
+		private boolean isMatchesLayoutEnabled = false;
+		
 		public GroupControlPanel(Group group) {
 			super(group);
 		}
@@ -71,6 +73,11 @@ public abstract class GroupPanel extends JPanel {
 				}
 			});
 			add(table);
+			
+			panelMatches = new MatchPanel();
+			panelMatches.setPreferredSize(table.getPreferredSize());
+			panelMatches.setVisible(false);
+			add(panelMatches);
 			
 			panelButtons = new JPanel();
 			panelButtons.setLayout(new BoxLayout(panelButtons, BoxLayout.LINE_AXIS));
@@ -95,7 +102,7 @@ public abstract class GroupPanel extends JPanel {
 			add(panelButtons);
 		}
 
-		private void buttonAddActionPerformed(GroupTable table, Group group) {
+		private void buttonAddActionPerformed(GroupTable table, Group group) { // TODO Confirmation dialogs
 			GroupControlTableModel model = (GroupControlTableModel) table.getModel();
 			String[] newName = model.getNewName();
 			if (newName[0] != null && newName[0] != "" && newName[1] != null && newName[1] != "") {
@@ -128,7 +135,14 @@ public abstract class GroupPanel extends JPanel {
 		}
 		
 		private void buttonMatchesActionPerformed(Group group) {
-			// TODO Auto-generated method stub
+			if (!isMatchesLayoutEnabled) {
+				// TODO
+				setMatchesLayoutEnabled(true);
+			} else {
+				// TODO
+				setMatchesLayoutEnabled(false);
+				publish(group, PublishType.PUBLISH_UPDATE);
+			}
 		}
 		
 		private void publish(Group group, PublishType type) {
@@ -144,11 +158,21 @@ public abstract class GroupPanel extends JPanel {
 			}
 		}
 		
+		private void setMatchesLayoutEnabled(boolean b) {
+			isMatchesLayoutEnabled = b;
+			table.setVisible(!b);
+			panelMatches.setVisible(b);
+			buttonAdd.setEnabled(!b);
+			buttonRemove.setEnabled(!b);
+			buttonGenerate.setEnabled(!b);
+		}
+		
 		private JButton buttonAdd;
 		private JButton buttonRemove;
 		private JButton buttonGenerate;
 		private JButton buttonMatches;
 		private JPanel panelButtons;
+		private MatchPanel panelMatches;
 	}
 	
 	public static class GroupDisplayPanel extends GroupPanel {

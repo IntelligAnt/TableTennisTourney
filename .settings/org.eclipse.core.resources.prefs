@@ -1,4 +1,6 @@
 eclipse.preferences.version=1
+encoding//src/org/elektronetf/ttt/Match.java=UTF-8
 encoding//src/org/elektronetf/ttt/gui/GroupPanel.java=UTF-8
+encoding//src/org/elektronetf/ttt/gui/MatchPanel.java=UTF-8
 encoding//src/org/elektronetf/ttt/gui/TTTControlFrame.java=UTF-8
 encoding//src/org/elektronetf/ttt/gui/TTTFrame.java=UTF-8

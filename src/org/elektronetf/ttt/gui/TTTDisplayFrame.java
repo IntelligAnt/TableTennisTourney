@@ -10,12 +10,8 @@ public class TTTDisplayFrame extends TTTFrame {
 
 	@Override
 	public void bindData(TourneyData data) {
-		if (panel != null) {
-			panel.setData(data);
-			panel.repopulate();
-		} else {
-			panel = new TourneyDisplayPanel(data);
-		}
+		panel.setData(data);
+		panel.repopulate();
 	}
 	
 	@Override

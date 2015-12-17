@@ -14,9 +14,12 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Toolkit;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+import java.util.Properties;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -58,7 +61,7 @@ public abstract class TTTFrame extends JFrame {
 		
 		SwingUtilities.invokeLater(() -> {
 			GraphicsDevice[] gds = ge.getScreenDevices();
-			assert(gds.length >= 1);
+			assert gds.length >= 1;
 			
 			TourneyData data = new TourneyData();
 			
@@ -67,7 +70,7 @@ public abstract class TTTFrame extends JFrame {
 				frame.bindData(data);
 				gds[0].setFullScreenWindow(frame);
 			} else {
-				String msg = "Display 1 doesn't support full screen";
+				String msg = "Display 1 doesn't support full screen mode";
 				GUIUtils.showError(msg);
 				throw new HeadlessException(msg);
 			}
@@ -82,7 +85,7 @@ public abstract class TTTFrame extends JFrame {
 				frame.bindData(data);
 				gds[1].setFullScreenWindow(frame);
 			} else {
-				String msg = "Display 2 doesn't support full screen";
+				String msg = "Display 2 doesn't support full screen mode";
 				GUIUtils.showError(msg);
 				throw new HeadlessException(msg);
 			}
@@ -100,6 +103,7 @@ public abstract class TTTFrame extends JFrame {
 	static final int		BORDER_WIDTH	= DIV_WIDTH / 2;
 	static final int		TOP_BAR_HEIGHT	= (int) (BASE_WIDTH * 0.1);
 	
+	static final Properties	PROPERTIES;
 	static final String		DEFUI_FONT_NAME	= "NK241"; // NK58, NK241, cirHELVn-Svetli, null
 	static final int		DEFUI_FONT_SIZE = 17;
 	static final String		FONT_NAME		= "NK233";
@@ -111,28 +115,36 @@ public abstract class TTTFrame extends JFrame {
 	static final Color		SHADE_COLOR		= new Color(0x34495E);
 	static final Color		ACCENT_COLOR	= new Color(0xF1C40F);
 	
-	protected static final String VENUE	= "СТК Палилула";
-	protected static final String DATE	= new SimpleDateFormat("dd.MM.yyyy.").format(new Date());
+	protected static final String TOURNEY_TYPE;
+	protected static final String VENUE_NAME;
+	protected static final String DATE = new SimpleDateFormat("dd.MM.yyyy.").format(new Date());
 	
-//	private static final Image ICON_IMAGE;
+	private static final List<Image> ICON_IMAGES;
 	private static final Image LOGO_IMAGE;
-	private static final Image HEART_IMAGE;
+	private static final Image OTHER_IMAGE;
 	private static final Style DEF_STYLE = StyleContext.getDefaultStyleContext().getStyle(StyleContext.DEFAULT_STYLE);
 	
 	static {
 		try {
-//			ICON_IMAGE	= ImageIO.read(TTTFrame.class.getResource("resources/icon.png"));
-			LOGO_IMAGE	= ImageIO.read(TTTFrame.class.getResource("resources/logo.png"));
-			HEART_IMAGE	= ImageIO.read(TTTFrame.class.getResource("resources/heart.png"));
+			PROPERTIES = new Properties();
+			PROPERTIES.loadFromXML(new FileInputStream("properties.xml"));
+			
+			TOURNEY_TYPE	= PROPERTIES.getProperty("str.tourneytype");
+			VENUE_NAME		= PROPERTIES.getProperty("str.venuename");
+			
+			ICON_IMAGES		= IconUtils.findIconImages(TTTFrame.class.getResource("resources/"),
+					IconUtils.FILENAME_FORMAT_2D, IconUtils.WINDOWS_SIZES);
+			LOGO_IMAGE		= ImageIO.read(TTTFrame.class.getResource("resources/logo.png"));
+			OTHER_IMAGE		= ImageIO.read(new File(PROPERTIES.getProperty("img.other")));
 		} catch (final IOException e) {
+			GUIUtils.showError("Cannot load required resources\n" + e);
 			throw new ExceptionInInitializerError(e);
 		}
 	}
 	
 	public TTTFrame() {
 		super("Турнир у стоном тенису – Електрон ЕТФ");
-//		setIconImage(ICON_IMAGE);
-		setIconImages(IconUtils.findIconImagesByOS(getClass().getResource("resources/"), IconUtils.FILENAME_FORMAT_2D));
+		setIconImages(ICON_IMAGES);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
 		setUndecorated(true);
@@ -151,30 +163,19 @@ public abstract class TTTFrame extends JFrame {
 	protected abstract void initPanel();
 	
 	private void initComponents() {
-//		labelLogo = new JLabel(" ") {
-//			@Override
-//			protected void paintComponent(Graphics g) {
-//				Dimension size = getParent().getSize();
-//				int len = (int) (size.width * 0.15);
-//				setSize(len, len);
-//				getParent().setSize(size.width, len + 2 * border);
-//				Image img = logoImage.getScaledInstance(len, len, Image.SCALE_SMOOTH);
-//				g.drawImage(img, 0, 0, this);
-//			}
-//		};
 		labelLogo = new JLabel(new ImageIcon(LOGO_IMAGE.getScaledInstance(-1, TOP_BAR_HEIGHT,Image.SCALE_SMOOTH)));
 		
 		textPaneLogo = new JTextPane();
 		textPaneLogo.setOpaque(false);
 		textPaneLogo.setEditable(false);
-		addLogoText(LOGO_FONT_SIZE);
+		addLogoText();
 		
 		textPaneInfo = new JTextPane();
 		textPaneInfo.setOpaque(false);
 		textPaneInfo.setEditable(false);
-		addInfoText(INFO_FONT_SIZE);
+		addInfoText();
 		
-		labelHeart = new JLabel(new ImageIcon(HEART_IMAGE.getScaledInstance(-1, TOP_BAR_HEIGHT,Image.SCALE_SMOOTH)));
+		labelHeart = new JLabel(new ImageIcon(OTHER_IMAGE.getScaledInstance(-1, TOP_BAR_HEIGHT,Image.SCALE_SMOOTH)));
 		
 		panelTopBar = new JPanel();
 		panelTopBar.setLayout(new BoxLayout(panelTopBar, BoxLayout.LINE_AXIS));
@@ -214,29 +215,29 @@ public abstract class TTTFrame extends JFrame {
 		add(scrollPane, BorderLayout.CENTER);
 	}
 	
-	private void addLogoText(int fontSize) {
+	private void addLogoText() {
 		StyledDocument doc = textPaneLogo.getStyledDocument();
 		String[] text = { "СТУДЕНТСКА ОРГАНИЗАЦИЈА\n", "ЕЛЕКТРОН" };
 		
 		Style normal = doc.addStyle("normal", DEF_STYLE);
 		StyleConstants.setForeground(normal, Color.WHITE);
 		StyleConstants.setFontFamily(normal, FONT_NAME);
-		StyleConstants.setFontSize(normal, fontSize);
+		StyleConstants.setFontSize(normal, LOGO_FONT_SIZE);
 		
 		Style large = doc.addStyle("large", normal);
-		StyleConstants.setFontSize(large, (int) (fontSize * 2.8667));
+		StyleConstants.setFontSize(large, (int) (LOGO_FONT_SIZE * 2.8667));
 		
 		addTextToDocument(doc, text, new Style[]{ normal, large });
 	}
 	
-	private void addInfoText(int fontSize) {
+	private void addInfoText() {
 		StyledDocument doc = textPaneInfo.getStyledDocument();
-		String[] text = { "Хуманитарни турнир у\n", "СТОНОМ ТЕНИСУ\n\n", VENUE + " " + DATE };
+		String[] text = { TOURNEY_TYPE + " турнир у\n", "СТОНОМ ТЕНИСУ\n\n", VENUE_NAME + " " + DATE };
 		
 		Style normal = doc.addStyle("normal", DEF_STYLE);
 		StyleConstants.setForeground(normal, new Color(0x95A5A6));
 		StyleConstants.setFontFamily(normal, FONT_NAME);
-		StyleConstants.setFontSize(normal, fontSize);
+		StyleConstants.setFontSize(normal, INFO_FONT_SIZE);
 		StyleConstants.setItalic(normal, true);
 		
 		Style white = doc.addStyle("white", normal);
@@ -246,7 +247,7 @@ public abstract class TTTFrame extends JFrame {
 	}
 	
 	private void addTextToDocument(StyledDocument doc, String[] text, Style[] styles) {
-		assert(text.length == styles.length);
+		assert text.length == styles.length;
 		
 		try {
 			for (int i = 0; i < text.length; i++) {

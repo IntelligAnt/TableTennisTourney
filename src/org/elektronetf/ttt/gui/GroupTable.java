@@ -91,7 +91,7 @@ public class GroupTable extends JTable {
 		
 		@Override
 		public void setValueAt(Object value, int row, int column) {
-			assert(isCellEditable(row, column));
+			assert isCellEditable(row, column);
 			Contestant con = group.getContestant(row);
 			String str = (String) value;
 			if (con != null) {
