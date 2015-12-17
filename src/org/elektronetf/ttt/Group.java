@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.elektronetf.ttt.gui.TTTFrame;
+
 public class Group implements Comparable<Group> {
-	public static final int MAX_CONTESTANTS = 5;
+	public static final int MAX_CONTESTANTS = new Integer(TTTFrame.getProperty("int.maxcontestants"));
 	
 	private static final String NAME_FORMAT = "ÑCÑÇÑÖÑÅÑp %s";
 	

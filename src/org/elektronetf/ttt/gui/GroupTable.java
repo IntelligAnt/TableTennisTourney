@@ -19,18 +19,20 @@ public class GroupTable extends JTable {
 	
 	public GroupTable(GroupTableModel model) {
 		super(model);
+		
 		setRowHeight(ROW_HEIGHT);
 		TableColumnModel columnModel = getColumnModel();
 		for (int i = 0; i < columnModel.getColumnCount(); i++) {
 			Class<?> columnClass = model.getColumnClass(i);
 			if (columnClass == String.class) {
-				columnModel.getColumn(i).setPreferredWidth(FONT_SIZE * 8);
+				columnModel.getColumn(i).setPreferredWidth(FONT_SIZE * 6);
 			} else if (columnClass == Integer.class) {
 				columnModel.getColumn(i).setPreferredWidth(FONT_SIZE * 2);
 			}
 		}
-		setFont(new Font(TTTFrame.FONT_NAME, Font.PLAIN, FONT_SIZE));
+		
 		setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		setFont(new Font(TTTFrame.FONT_NAME, Font.PLAIN, FONT_SIZE));
 		setDefaultRenderer(Object.class, new GroupTableCellRenderer());
 	}
 	
@@ -113,6 +115,18 @@ public class GroupTable extends JTable {
 		}
 		
 		@Override
+		public String getColumnName(int column) {
+			switch (column) {
+			case 0:
+				return "„I„}„u";
+			case 1:
+				return "„P„‚„u„x„y„}„u";
+			default:
+				return null;
+			}
+		}
+		
+		@Override
 		public boolean isCellEditable(int row, int column) {
 			return true;
 		}
@@ -155,6 +169,24 @@ public class GroupTable extends JTable {
 		@Override
 		public Class<?> getColumnClass(int column) {
 			return (column < 2) ? String.class : Integer.class; 
+		}
+
+		@Override
+		public String getColumnName(int column) {
+			switch (column) {
+			case 0:
+				return "„I„}„u";
+			case 1:
+				return "„P„‚„u„x„y„}„u";
+			case 2:
+				return "„D„€„q. „}„u„‰„u„r„y";
+			case 3:
+				return "„I„x„s. „ƒ„u„„„€„r„y";
+			case 4:
+				return "„I„x„s. „„€„u„~„y";
+			default:
+				return null;
+			}
 		}
 	}
 	

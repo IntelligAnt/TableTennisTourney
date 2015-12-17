@@ -103,7 +103,6 @@ public abstract class TTTFrame extends JFrame {
 	static final int		BORDER_WIDTH	= DIV_WIDTH / 2;
 	static final int		TOP_BAR_HEIGHT	= (int) (BASE_WIDTH * 0.1);
 	
-	static final Properties	PROPERTIES;
 	static final String		DEFUI_FONT_NAME	= "NK241"; // NK58, NK241, cirHELVn-Svetli, null
 	static final int		DEFUI_FONT_SIZE = 17;
 	static final String		FONT_NAME		= "NK233";
@@ -119,6 +118,7 @@ public abstract class TTTFrame extends JFrame {
 	protected static final String VENUE_NAME;
 	protected static final String DATE = new SimpleDateFormat("dd.MM.yyyy.").format(new Date());
 	
+	private static final Properties	PROPERTIES;
 	private static final List<Image> ICON_IMAGES;
 	private static final Image LOGO_IMAGE;
 	private static final Image OTHER_IMAGE;
@@ -129,13 +129,13 @@ public abstract class TTTFrame extends JFrame {
 			PROPERTIES = new Properties();
 			PROPERTIES.loadFromXML(new FileInputStream("properties.xml"));
 			
-			TOURNEY_TYPE	= PROPERTIES.getProperty("str.tourneytype");
-			VENUE_NAME		= PROPERTIES.getProperty("str.venuename");
+			TOURNEY_TYPE	= getProperty("str.tourneytype");
+			VENUE_NAME		= getProperty("str.venuename");
 			
 			ICON_IMAGES		= IconUtils.findIconImages(TTTFrame.class.getResource("resources/"),
 					IconUtils.FILENAME_FORMAT_2D, IconUtils.WINDOWS_SIZES);
 			LOGO_IMAGE		= ImageIO.read(TTTFrame.class.getResource("resources/logo.png"));
-			OTHER_IMAGE		= ImageIO.read(new File(PROPERTIES.getProperty("img.other")));
+			OTHER_IMAGE		= ImageIO.read(new File(getProperty("img.other")));
 		} catch (final IOException e) {
 			GUIUtils.showError("Cannot load required resources\n" + e);
 			throw new ExceptionInInitializerError(e);
@@ -158,6 +158,10 @@ public abstract class TTTFrame extends JFrame {
 	
 	public void bindData(TourneyData data) {
 		panel.setData(data);
+	}
+	
+	public static String getProperty(String key) {
+		return PROPERTIES.getProperty(key);
 	}
 
 	protected abstract void initPanel();
@@ -212,6 +216,7 @@ public abstract class TTTFrame extends JFrame {
 		initPanel();
 		scrollPane = new JScrollPane(panel);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
+		scrollPane.getHorizontalScrollBar().setUnitIncrement(25);
 		add(scrollPane, BorderLayout.CENTER);
 	}
 	
@@ -257,7 +262,7 @@ public abstract class TTTFrame extends JFrame {
 			GUIUtils.showError("Cannot add text to " + doc);
 		}
 	}
-	
+
 	protected TourneyPanel panel;
 	
 	private JLabel labelHeart;

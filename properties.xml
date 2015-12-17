@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment>Турнир у стоном тенису – Електрон ЕТФ – aутор: Константин Ђорђевић 2014/0414</comment>
+<entry key="str.tourneytype">Хуманитарни</entry>	<!-- Врста турнира, нпр. "Хуманитарни" или "Пети велики" -->
+<entry key="str.venuename">СТК Палилула</entry>		<!-- Место одржавања, нпр. "СТК Палилула" или "СД Карабурма" -->
+<entry key="img.other">resources/other.png</entry>	<!-- Релативна путања слике која ће бити у горњем десном углу
+													     Слика би требало да буде PNG већег формата (нпр. 960x960) -->
+<entry key="int.maxgroups">16</entry>				<!-- Колико највише група може учествовати на турниру -->
+<entry key="int.maxcontestants">5</entry>			<!-- Колико највише може имати играча у свакој групи -->
+</properties>

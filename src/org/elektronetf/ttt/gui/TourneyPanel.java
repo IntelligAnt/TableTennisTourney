@@ -18,7 +18,7 @@ import org.elektronetf.util.gui.VerticalWrapLayout;
 
 public abstract class TourneyPanel extends JPanel {
 	static final int BASE_HEIGHT = TTTFrame.SCREEN_SIZE.height - TTTFrame.TOP_BAR_HEIGHT;
-	static final int MAX_GROUP_COUNT = 16;
+	static final int MAX_GROUPS	 = new Integer(TTTFrame.getProperty("int.maxgroups"));
 	
 	protected TourneyData data;
 	
@@ -74,7 +74,7 @@ public abstract class TourneyPanel extends JPanel {
 					add(new GroupControlPanel(group));
 					i++;
 				}
-				for (; i < MAX_GROUP_COUNT; i++) {
+				for (; i < MAX_GROUPS; i++) {
 					Group group = data.createGroup();
 					add(new GroupControlPanel(group));
 				}
