@@ -143,7 +143,7 @@ public abstract class GroupPanel extends JPanel {
 		
 		private void buttonMatchesActionPerformed(Group group) {
 			if (!isMatchesLayoutEnabled) {
-				// TODO
+				panelMatches.bindMatches(group.getMatches());
 				setMatchesLayoutEnabled(true);
 			} else {
 				// TODO
@@ -172,6 +172,7 @@ public abstract class GroupPanel extends JPanel {
 			buttonAdd.setEnabled(!b);
 			buttonRemove.setEnabled(!b);
 			buttonGenerate.setEnabled(!b);
+			buttonMatches.setText(b ? "Потврди" : "Мечеви"); // TODO Changing text resizes the panel
 		}
 		
 		private JButton buttonAdd;

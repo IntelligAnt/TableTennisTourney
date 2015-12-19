@@ -25,7 +25,7 @@ public class GroupTable extends JTable {
 		for (int i = 0; i < columnModel.getColumnCount(); i++) {
 			Class<?> columnClass = model.getColumnClass(i);
 			if (columnClass == String.class) {
-				columnModel.getColumn(i).setPreferredWidth(FONT_SIZE * 6);
+				columnModel.getColumn(i).setPreferredWidth(FONT_SIZE * 7);
 			} else if (columnClass == Integer.class) {
 				columnModel.getColumn(i).setPreferredWidth(FONT_SIZE * 2);
 			}
@@ -51,15 +51,15 @@ public class GroupTable extends JTable {
 		public String getColumnName(int column) {
 			switch (column) {
 			case 0:
-				return "ÑyÑ}Ñu";
+				return "–∏–º–µ";
 			case 1:
-				return "ÑÅÑÇÑuÑxÑyÑ}Ñu";
+				return "–ø—Ä–µ–∑–∏–º–µ";
 			case 2:
-				return "+Ñ}ÑuÑâ";
+				return "+–º–µ—á";
 			case 3:
-				return "-ÑÉÑuÑÑ";
+				return "-—Å–µ—Ç";
 			case 4:
-				return "-ÑqÑÄÑt";
+				return "-–±–æ–¥";
 			default:
 				return null;
 			}

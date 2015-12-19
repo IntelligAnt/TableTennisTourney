@@ -1,6 +1,5 @@
 package org.elektronetf.ttt.gui;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.SortedMap;
@@ -21,8 +20,6 @@ public abstract class TourneyPanel extends JPanel {
 	
 	protected TourneyData data;
 	
-//	private static final int MAX_ROWS = 3;
-//	private static final int MAX_COLS = -Math.floorDiv(-TourneyData.MAX_GROUP_COUNT, MAX_ROWS); // Essentially ceilDiv()
 	private static final EventListenerList PUBLISH_LISTENERS = new EventListenerList();
 	
 	public TourneyPanel() {
@@ -116,16 +113,17 @@ public abstract class TourneyPanel extends JPanel {
 			
 			switch(evt.getType()) {
 			case PUBLISH_UPDATE:
-				if (!groupMap.containsKey(group)) {
-					Collection<GroupDisplayPanel> panels = groupMap.values();
-					List<Group> panelGroupList = panels.stream().map(
-							(panel) -> panel.getGroup()).collect(Collectors.toList());
-					int index = Collections.binarySearch(panelGroupList, group);
-					assert index < 0;
-					GroupDisplayPanel panel = new GroupDisplayPanel(group);
-					add(panel, -index - 1);
-					groupMap.put(group, panel);
+				List<Group> panelGroupList = groupMap.values().stream().map(
+						(panel) -> panel.getGroup()).collect(Collectors.toList());
+				int index = Collections.binarySearch(panelGroupList, group);
+				GroupDisplayPanel panel = new GroupDisplayPanel(group);
+				if (index >= 0) {
+					remove(groupMap.get(group));	// Panel already exists, replace it
+				} else {
+					index = -index - 1;				// Panel doesn't exist, find insertion index
 				}
+				add(panel, index);
+				groupMap.put(group, panel);
 				break;
 			case PUBLISH_REMOVE:
 				if (group.getContestantCount() != 0) {

@@ -4,7 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.InputVerifier;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -14,18 +16,15 @@ import javax.swing.JTextField;
 import org.elektronetf.ttt.Match;
 
 public class MatchPanel extends JPanel { // TODO SUCKS ASS
-	private List<Match> matches;
-	
 	public MatchPanel() {
 		super(new BorderLayout());
 		
 		comboBox = new JComboBox<>();
 		comboBox.setEditable(false);
-		comboBox.addItemListener((evt) -> ((CardLayout) getLayout()).show(this, (String) evt.getItem()));
+		comboBox.addItemListener((evt) -> ((CardLayout) cards.getLayout()).show(cards, (String) evt.getItem()));
 		add(comboBox, BorderLayout.PAGE_START);
 		
-		JPanel cards = new JPanel(new CardLayout());
-		matchPanels = new ArrayList<>();
+		cards = new JPanel(new CardLayout());
 //		for (Match match : matches) {
 //			JPanel panelMatch = new JPanel(new BorderLayout());
 //			
@@ -42,11 +41,12 @@ public class MatchPanel extends JPanel { // TODO SUCKS ASS
 //		}
 		add(cards, BorderLayout.CENTER);
 	}
-
-	public List<Match> getMatches() {
-		return matches;
-	}
+	
+	public void bindMatches(List<Match> matches) {
+		comboBox.setModel(new DefaultComboBoxModel<>(new Vector<>(matches)));
 		
+	}
+	
 //	public void submit() {
 //		int cardIndex 
 //		for (int i = 0; i < 3; i++) {
@@ -55,9 +55,9 @@ public class MatchPanel extends JPanel { // TODO SUCKS ASS
 //		match.finish();
 //	}
 	
+
 	private JComboBox<Match> comboBox;
-	private List<JPanel> matchPanels;
-	private List<PointsTextField> inputs;
+	private JPanel cards;
 	
 	private static class PointsPanel extends JPanel {
 		

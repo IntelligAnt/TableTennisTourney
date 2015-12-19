@@ -213,10 +213,11 @@ public abstract class TTTFrame extends JFrame {
 		panelTopBar.add(labelHeart);
 		add(panelTopBar, BorderLayout.PAGE_START);
 		
-		initPanel();
-		scrollPane = new JScrollPane(panel);
+		scrollPane = new JScrollPane();
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
 		scrollPane.getHorizontalScrollBar().setUnitIncrement(25);
+		initPanel();
+		scrollPane.setViewportView(panel);
 		add(scrollPane, BorderLayout.CENTER);
 	}
 	
@@ -263,12 +264,12 @@ public abstract class TTTFrame extends JFrame {
 		}
 	}
 
+	protected JScrollPane scrollPane;
 	protected TourneyPanel panel;
 	
 	private JLabel labelHeart;
 	private JLabel labelLogo;
 	private JPanel panelTopBar;
-	private JScrollPane scrollPane;
 	private JTextPane textPaneLogo;
 	private JTextPane textPaneInfo;
 }
