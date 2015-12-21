@@ -62,7 +62,7 @@ public abstract class TTTFrame extends JFrame {
 		SwingUtilities.invokeLater(() -> {
 			GraphicsDevice[] gds = ge.getScreenDevices();
 			assert gds.length >= 1;
-			
+				
 			TourneyData data = new TourneyData();
 			
 			if (gds[0].isFullScreenSupported()) {

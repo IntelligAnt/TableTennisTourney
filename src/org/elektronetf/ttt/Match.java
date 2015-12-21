@@ -23,7 +23,7 @@ public class Match {
     public void setScore(int set, int contestant1, int contestant2)
     {
         if (set > 3)
-            return;
+            throw new IllegalArgumentException("Invalid set index");
         score.get(set).set(0, contestant1);
         score.get(set).set(1, contestant2);
         int sets1 = 0;

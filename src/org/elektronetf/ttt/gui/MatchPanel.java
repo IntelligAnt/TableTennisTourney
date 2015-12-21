@@ -2,7 +2,6 @@ package org.elektronetf.ttt.gui;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
@@ -25,26 +24,15 @@ public class MatchPanel extends JPanel { // TODO SUCKS ASS
 		add(comboBox, BorderLayout.PAGE_START);
 		
 		cards = new JPanel(new CardLayout());
-//		for (Match match : matches) {
-//			JPanel panelMatch = new JPanel(new BorderLayout());
-//			
-//			GridBagPanel panelInput = new GridBagPanel();
-//			inputs = new ArrayList<>(6);
-//			for (int i = 0; i < 6; i++) {
-//				PointsTextField input = new PointsTextField();
-//				panelInput.addToGrid(input, i % 3, i / 3);
-//				inputs.add(input);
-//			}
-//			panelMatch.add(panelInput, BorderLayout.CENTER);
-//			
-//			cards.add(panelMatch, match.toString());
-//		}
 		add(cards, BorderLayout.CENTER);
 	}
 	
 	public void bindMatches(List<Match> matches) {
 		comboBox.setModel(new DefaultComboBoxModel<>(new Vector<>(matches)));
-		
+		cards.removeAll();
+		for (Match match : matches) {
+			cards.add(new PointsPanel(match), match.toString());
+		}
 	}
 	
 //	public void submit() {
@@ -60,7 +48,12 @@ public class MatchPanel extends JPanel { // TODO SUCKS ASS
 	private JPanel cards;
 	
 	private static class PointsPanel extends JPanel {
+		private final Match match;
 		
+		public PointsPanel(Match match) {
+			this.match = match;
+			
+		}
 	}
 	
 	private static class PointsTextField extends JTextField {

@@ -14,4 +14,56 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>lib</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>lib/commons-io-2.4.jar</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/Utils/lib/commons-io-2.4.jar</locationURI>
+		</link>
+		<link>
+			<name>lib/commons-lang3-3.1.jar</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/Utils/lib/commons-lang3-3.1.jar</locationURI>
+		</link>
+		<link>
+			<name>src/org/elektronetf/util</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>src/org/elektronetf/util/gui</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>src/org/elektronetf/util/io</name>
+			<type>2</type>
+			<locationURI>virtual:/virtual</locationURI>
+		</link>
+		<link>
+			<name>src/org/elektronetf/util/gui/GUIUtils.java</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/Utils/src/org/elektronetf/util/gui/GUIUtils.java</locationURI>
+		</link>
+		<link>
+			<name>src/org/elektronetf/util/gui/VerticalFlowLayout.java</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/Utils/src/org/elektronetf/util/gui/VerticalFlowLayout.java</locationURI>
+		</link>
+		<link>
+			<name>src/org/elektronetf/util/gui/VerticalWrapLayout.java</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/Utils/src/org/elektronetf/util/gui/VerticalWrapLayout.java</locationURI>
+		</link>
+		<link>
+			<name>src/org/elektronetf/util/io/IconUtils.java</name>
+			<type>1</type>
+			<locationURI>PARENT-1-PROJECT_LOC/Utils/src/org/elektronetf/util/io/IconUtils.java</locationURI>
+		</link>
+	</linkedResources>
 </projectDescription>

@@ -15,7 +15,7 @@ public class TTTDisplayFrame extends TTTFrame {
 	
 	
 	public TTTDisplayFrame() {
-		setTitle("[„P„‚„y„{„p„x] " + getTitle());
+		setTitle("[ÐŸÑ€Ð¸ÐºÐ°Ð·] " + getTitle());
 	}
 
 	@Override

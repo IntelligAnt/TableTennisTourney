@@ -12,7 +12,7 @@ public class Group implements Comparable<Group> {
 	public static final int MAX_CONTESTANTS = new Integer(TTTFrame.getProperty("int.maxcontestants"));
 	public static final String FIRST_DESIGNATION = TTTFrame.getProperty("str.firstdesignation");
 	
-	private static final String NAME_FORMAT = "ÑCÑÇÑÖÑÅÑp %s";
+	private static final String NAME_FORMAT = "–ì—Ä—É–ø–∞ %s";
 	
 	private String designation;
 	private List<Contestant> contestants;
