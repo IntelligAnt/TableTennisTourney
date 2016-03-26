@@ -113,7 +113,12 @@ public class GroupTable extends JTable {
 		public void setValueAt(Object value, int row, int column) {
 			assert isCellEditable(row, column);
 			Contestant con = group.getContestant(row);
-			String str = (String) value;
+			String str = ((String) value).trim();
+			int index = str.lastIndexOf(' ');
+			if (column == 0 && index > -1) {
+				setValueAt(str.substring(index + 1), row, 1);
+				str = str.substring(0, index);
+			}
 			if (con != null) {
 				if (column == 0) {
 					con.setFirstName(str);
