@@ -67,6 +67,10 @@ public class Group implements Comparable<Group> {
 		return contestants.size();
 	}
 	
+	public boolean hasEnoughContestants() {
+		return contestants.size() >= 2;
+	}
+	
 	public boolean addContestant(Contestant con) {
 		if (contestants.size() < MAX_CONTESTANTS) {
 			return contestants.add(con);
@@ -87,14 +91,13 @@ public class Group implements Comparable<Group> {
 	}
 
 	public boolean generateMatches() {
-		boolean generated = false;
+		matches.clear();
 		for (int i = 0; i < contestants.size(); i++) {
 			for (int j = i + 1; j < contestants.size(); j++) {
 				matches.add(new Match(3, contestants.get(i), contestants.get(j)));
-				generated = true;
 			}
 		}
-		return generated;
+		return !matches.isEmpty();
 	}
 	
 	public static String getNextDesignation(String designation) {

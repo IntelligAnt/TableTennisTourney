@@ -94,10 +94,12 @@ public abstract class GroupPanel extends JPanel {
 			panelButtons.add(buttonAdd);
 			
 			buttonRemove = new JButton("Уклони");
+			buttonRemove.setEnabled(false);
 			buttonRemove.addActionListener((evt) -> buttonRemoveActionPerformed(table, group));
 			panelButtons.add(buttonRemove);
 			
 			buttonGenerate = new JButton("Објави");
+			buttonGenerate.setEnabled(false);
 			buttonGenerate.addActionListener((evt) -> buttonGenerateActionPerformed(group));
 			panelButtons.add(buttonGenerate);
 			
@@ -112,10 +114,10 @@ public abstract class GroupPanel extends JPanel {
 		private void buttonAddActionPerformed(GroupTable table, Group group) { // TODO Confirmation dialogs
 			GroupControlTableModel model = (GroupControlTableModel) table.getModel();
 			String[] newName = model.getNewName();
-			if (newName[0] != null && newName[0] != "" && newName[1] != null && newName[1] != "") {
-				int row = model.getNewNameRow();
-				group.addContestant(new Contestant(newName[0], newName[1]));
-				model.setNewName(new String[]{ null, null });
+			int row = model.getNewNameRow();
+			if (newName[0] != null && newName[0] != "" && newName[1] != null && newName[1] != ""
+					&& group.addContestant(new Contestant(newName[0], newName[1]))) {
+				model.setNewName(new String[] { null, null });
 				model.fireTableRowsInserted(row, row);
 				table.changeSelection(model.getNewNameRow(), 0, false, false);
 				table.requestFocusInWindow();
@@ -127,8 +129,8 @@ public abstract class GroupPanel extends JPanel {
 			GroupControlTableModel model = (GroupControlTableModel) table.getModel();
 			int row = table.getSelectedRow();
 			Contestant con = group.getContestant(row);
-			if (con != null) {
-				group.removeContestant(con);
+			if (con != null && group.removeContestant(con)) {
+				System.out.println("deleted " + con);
 				model.fireTableRowsDeleted(row, row);
 				table.requestFocusInWindow();
 				publish(group, PublishType.PUBLISH_REMOVE);
@@ -146,15 +148,15 @@ public abstract class GroupPanel extends JPanel {
 				panelMatches.bindMatches(group.getMatches());
 				setMatchesLayoutEnabled(true);
 			} else {
-				// TODO
+				panelMatches.submit();
 				setMatchesLayoutEnabled(false);
 				publish(group, PublishType.PUBLISH_UPDATE);
 			}
 		}
 		
 		private void publish(Group group, PublishType type) {
-			for (PublishListener l : TourneyPanel.getPublishListeners()) {
-				l.publishPerformed(new PublishEvent(group, type));
+			for (PublishListener pl : TourneyPanel.getPublishListeners()) {
+				pl.publishPerformed(new PublishEvent(group, type));
 			}
 			if (type == PublishType.PUBLISH_UPDATE) {
 				buttonMatches.setEnabled(true);
@@ -162,6 +164,18 @@ public abstract class GroupPanel extends JPanel {
 			} else {
 				buttonMatches.setEnabled(false);
 				setBorder(borderModified);
+				buttonGenerate.setEnabled(group.hasEnoughContestants());
+				if (type == PublishType.PUBLISH_ADD) {
+					buttonRemove.setEnabled(true);
+					if (group.getContestantCount() == Group.MAX_CONTESTANTS) {
+						buttonAdd.setEnabled(false);
+					}
+				} else { // PublishType.PUBLISH_REMOVE
+					buttonAdd.setEnabled(true);
+					if (group.getContestantCount() == 0) {
+						buttonRemove.setEnabled(false);
+					}
+				}
 			}
 		}
 		

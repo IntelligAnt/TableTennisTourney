@@ -137,7 +137,7 @@ public abstract class TourneyPanel extends JPanel {
 			}
 			
 			revalidate();
-			repaint();
+//			repaint();
 		}
 	}
 }

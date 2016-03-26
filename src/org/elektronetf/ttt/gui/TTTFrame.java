@@ -167,7 +167,7 @@ public abstract class TTTFrame extends JFrame {
 	protected abstract void initPanel();
 	
 	private void initComponents() {
-		labelLogo = new JLabel(new ImageIcon(LOGO_IMAGE.getScaledInstance(-1, TOP_BAR_HEIGHT,Image.SCALE_SMOOTH)));
+		labelLogo = new JLabel(new ImageIcon(LOGO_IMAGE.getScaledInstance(-1, TOP_BAR_HEIGHT, Image.SCALE_SMOOTH)));
 		
 		textPaneLogo = new JTextPane();
 		textPaneLogo.setOpaque(false);
@@ -179,7 +179,7 @@ public abstract class TTTFrame extends JFrame {
 		textPaneInfo.setEditable(false);
 		addInfoText();
 		
-		labelHeart = new JLabel(new ImageIcon(OTHER_IMAGE.getScaledInstance(-1, TOP_BAR_HEIGHT,Image.SCALE_SMOOTH)));
+		labelOther = new JLabel(new ImageIcon(OTHER_IMAGE.getScaledInstance(-1, TOP_BAR_HEIGHT, Image.SCALE_SMOOTH)));
 		
 		panelTopBar = new JPanel();
 		panelTopBar.setLayout(new BoxLayout(panelTopBar, BoxLayout.LINE_AXIS));
@@ -210,7 +210,7 @@ public abstract class TTTFrame extends JFrame {
 		panelTopBar.add(textPaneLogo);
 		panelTopBar.add(Box.createHorizontalGlue());
 		panelTopBar.add(textPaneInfo);
-		panelTopBar.add(labelHeart);
+		panelTopBar.add(labelOther);
 		add(panelTopBar, BorderLayout.PAGE_START);
 		
 		scrollPane = new JScrollPane();
@@ -233,7 +233,7 @@ public abstract class TTTFrame extends JFrame {
 		Style large = doc.addStyle("large", normal);
 		StyleConstants.setFontSize(large, (int) (LOGO_FONT_SIZE * 2.8667));
 		
-		addTextToDocument(doc, text, new Style[]{ normal, large });
+		addTextToDocument(doc, text, new Style[] { normal, large });
 	}
 	
 	private void addInfoText() {
@@ -249,7 +249,7 @@ public abstract class TTTFrame extends JFrame {
 		Style white = doc.addStyle("white", normal);
 		StyleConstants.setForeground(white, Color.WHITE);
 		
-		addTextToDocument(doc, text, new Style[]{ normal, white, normal });
+		addTextToDocument(doc, text, new Style[] { normal, white, normal });
 	}
 	
 	private void addTextToDocument(StyledDocument doc, String[] text, Style[] styles) {
@@ -267,7 +267,7 @@ public abstract class TTTFrame extends JFrame {
 	protected JScrollPane scrollPane;
 	protected TourneyPanel panel;
 	
-	private JLabel labelHeart;
+	private JLabel labelOther;
 	private JLabel labelLogo;
 	private JPanel panelTopBar;
 	private JTextPane textPaneLogo;
